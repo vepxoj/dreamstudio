@@ -209,7 +209,7 @@
             </button>
             <h4 class="text-3xl font-bold text-[#64FFDA] mb-6 text-center">დაჯავშნა</h4>
             <!-- ეს ფორმა იყენებს Formspree-ს მონაცემების vepxoj@gmail.com-ზე გასაგზავნად -->
-            <form id="reservation-form" action="https://formspree.io/f/vepxoj@gmail.com" method="POST" class="space-y-4">
+            <form id="reservation-form" class="space-y-4">
                 <input type="hidden" name="_subject" value="ახალი დაჯავშნა Dream Studio-სგან">
                 <div>
                     <label for="name" class="block text-gray-400 mb-2">სახელი და გვარი</label>
@@ -268,13 +268,46 @@
                 }
             });
 
-            reservationForm.addEventListener('submit', (event) => {
-                // ფორმის გაგზავნა Formspree-ს საშუალებით ხდება, ამიტომ JavaScript-ის ფუნქციონალი საჭირო აღარ არის
+            // Handle the form submission with fetch to prevent redirection
+            reservationForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                // Get the data from the form
+                const formData = new FormData(reservationForm);
+                const data = Object.fromEntries(formData.entries());
                 
-                // შეგიძლიათ დაამატოთ მარტივი შეტყობინება წარმატების შესახებ
-                // Formspree-ს გადამისამართება ხდება, ამიტომ ეს კოდი შეიძლება არ შესრულდეს გადამისამართებამდე
-                messageBox.textContent = 'თქვენი ჯავშნის მოთხოვნა წარმატებით გაიგზავნა!';
-                messageBox.classList.remove('hidden');
+                // Show a "loading" message
+                messageBox.textContent = 'მიმდინარეობს გაგზავნა...';
+                messageBox.classList.remove('hidden', 'text-green-500', 'text-red-500');
+                messageBox.classList.add('text-gray-400');
+
+                // Send the data to Formspree using fetch
+                try {
+                    const response = await fetch('https://formspree.io/f/xqadloyp', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (response.ok) {
+                        messageBox.textContent = 'თქვენი ჯავშნის მოთხოვნა წარმატებით გაიგზავნა!';
+                        messageBox.classList.remove('text-gray-400');
+                        messageBox.classList.add('text-green-500');
+                        reservationForm.reset();
+                        // You can also add a small delay and close the modal automatically
+                        // setTimeout(() => { modal.style.display = 'none'; }, 3000);
+                    } else {
+                        throw new Error('Formspree response was not OK');
+                    }
+                } catch (error) {
+                    console.error('Submission error:', error);
+                    messageBox.textContent = 'დაფიქსირდა შეცდომა. სცადეთ მოგვიანებით.';
+                    messageBox.classList.remove('text-gray-400');
+                    messageBox.classList.add('text-red-500');
+                }
             });
         });
     </script>
