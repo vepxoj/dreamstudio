@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dream studio - პროფესიონალი ვიდეოგრაფია</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #0A192F;
+            color: #E0E0E0;
+        }
+
+        .scroll-container {
+            overflow-x: auto;
+            white-space: nowrap;
+            scrollbar-width: thin;
+            scrollbar-color: #64FFDA #193153;
+        }
+
+        .scroll-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .scroll-container::-webkit-scrollbar-track {
+            background: #193153;
+            border-radius: 10px;
+        }
+
+        .scroll-container::-webkit-scrollbar-thumb {
+            background-color: #64FFDA;
+            border-radius: 10px;
+            border: 2px solid #193153;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="bg-[#112240] text-[#E0E0E0] p-6 shadow-lg rounded-b-xl">
+        <nav class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold text-white">Dream studio</h1>
+            <div class="space-x-4 flex items-center">
+                <a href="#services" class="hover:text-[#64FFDA] transition duration-300 hidden md:inline">სერვისები</a>
+                <a href="#portfolio" class="hover:text-[#64FFDA] transition duration-300 hidden md:inline">პორტფოლიო</a>
+                <a href="#pricing" class="hover:text-[#64FFDA] transition duration-300 hidden md:inline">ფასები</a>
+                <a href="#contact" class="hover:text-[#64FFDA] transition duration-300 hidden md:inline">კონტაქტი</a>
+                <button id="reserve-button" class="bg-[#64FFDA] text-[#0A192F] py-2 px-6 rounded-full font-bold shadow-lg hover:bg-[#A8E2D2] transition duration-300 transform hover:scale-105 ml-4">
+                    დაჯავშნა
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center justify-center p-8 text-center bg-black bg-opacity-50">
+        <div class="container mx-auto">
+            <h2 class="text-5xl md:text-7xl font-bold text-[#64FFDA] mb-4 drop-shadow-lg">
+                დაიჭირეთ თქვენი მომენტები სამუდამოდ
+            </h2>
+            <p class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto drop-shadow-md">
+                პროფესიონალური ვიდეოგრაფია ქორწილისთვის, ნათლობისთვის, ბანკეტისთვის და სხვა მნიშვნელოვანი მოვლენისთვის.
+            </p>
+            <a href="#services" class="bg-[#64FFDA] text-[#0A192F] py-3 px-8 rounded-full font-bold shadow-lg hover:bg-[#A8E2D2] transition duration-300 transform hover:scale-105">
+                გაიგეთ მეტი
+            </a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-[#112240] rounded-t-3xl">
+        <div class="container mx-auto text-center px-4">
+            <h3 class="text-4xl font-bold text-[#64FFDA] mb-12">ჩვენი სერვისები</h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Wedding Card -->
+                <div class="bg-[#193153] p-8 rounded-xl shadow-lg transform hover:scale-105 transition duration-300">
+                    <h4 class="text-2xl font-semibold mb-4 text-[#E0E0E0]">ქორწილის ვიდეოგრაფია</h4>
+                    <p class="mb-4 text-gray-400 text-sm">
+                        დაუვიწყარი ემოციები და სიყვარულის ისტორია, რომელიც დროის მიღმა დარჩება. ჩვენი მიზანია, თქვენი ყველაზე ბედნიერი დღე კინემატოგრაფიულ შედევრად ვაქციოთ.
+                    </p>
+                    <a href="#portfolio" class="text-[#64FFDA] font-bold hover:underline">ნახეთ ვიდეოები</a>
+                </div>
+                <!-- Baptism Card -->
+                <div class="bg-[#193153] p-8 rounded-xl shadow-lg transform hover:scale-105 transition duration-300">
+                    <h4 class="text-2xl font-semibold mb-4 text-[#E0E0E0]">ნათლობის ვიდეოგრაფია</h4>
+                    <p class="mb-4 text-gray-400 text-sm">
+                        დაიჭირეთ თქვენი ბავშვის პირველი ნაბიჯები სულიერ ცხოვრებაში. ჩვენ ვქმნით თბილ და ემოციურ ვიდეოებს, რომლებიც აღწერს ამ განსაკუთრებულ დღეს.
+                    </p>
+                    <a href="#portfolio" class="text-[#64FFDA] font-bold hover:underline">ნახეთ ვიდეოები</a>
+                </div>
+                <!-- Banquet Card -->
+                <div class="bg-[#193153] p-8 rounded-xl shadow-lg transform hover:scale-105 transition duration-300">
+                    <h4 class="text-2xl font-semibold mb-4 text-[#E0E0E0]">ბანკეტის გადაღება</h4>
+                    <p class="mb-4 text-gray-400 text-sm">
+                        სკოლის დამთავრების, იუბილეებისა და სხვა საზეიმო ღონისძიებების დაუვიწყარი მომენტები, გადმოცემული თანამედროვე და ცოცხალი ვიდეოებით.
+                    </p>
+                    <a href="#portfolio" class="text-[#64FFDA] font-bold hover:underline">ნახეთ ვიდეოები</a>
+                </div>
+                <!-- Commercial Card -->
+                <div class="bg-[#193153] p-8 rounded-xl shadow-lg transform hover:scale-105 transition duration-300">
+                    <h4 class="text-2xl font-semibold mb-4 text-[#E0E0E0]">კომერციული გადაღება</h4>
+                    <p class="mb-4 text-gray-400 text-sm">
+                        გამოიყენეთ ვიდეოს ძალა თქვენი ბიზნესის წარმოსაჩენად. ვქმნით პროდუქციის ვიდეოებს, სარეკლამო რგოლებს და კორპორატიულ ვიდეოებს.
+                    </p>
+                    <a href="#contact" class="text-[#64FFDA] font-bold hover:underline">გაიგეთ მეტი</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-20 bg-[#0A192F]">
+        <div class="container mx-auto px-4">
+            <h3 class="text-3xl font-bold text-[#E0E0E0] mb-8 text-center md:text-left">ჩვენი პორტფოლიო</h3>
+            <div class="scroll-container flex space-x-4 pb-4">
+                <iframe class="w-[300px] md:w-[560px] h-[169px] md:h-[315px] flex-shrink-0 rounded-lg shadow-xl" src="https://www.youtube.com/embed/FO33jVWLXYs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe class="w-[300px] md:w-[560px] h-[169px] md:h-[315px] flex-shrink-0 rounded-lg shadow-xl" src="https://www.youtube.com/embed/6LJQZ-OLB1Y" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe class="w-[300px] md:w-[560px] h-[169px] md:h-[315px] flex-shrink-0 rounded-lg shadow-xl" src="https://www.youtube.com/embed/9dS8gjgl8GQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe class="w-[300px] md:w-[560px] h-[169px] md:h-[315px] flex-shrink-0 rounded-lg shadow-xl" src="https://www.youtube.com/embed/g9_1l6RrwcY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 bg-[#112240]">
+        <div class="container mx-auto px-4 text-center">
+            <h3 class="text-4xl font-bold text-[#64FFDA] mb-12">ჩვენი ფასები</h3>
+            <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                <div class="bg-[#193153] p-8 rounded-xl shadow-lg border-b-4 border-[#64FFDA]">
+                    <h4 class="text-xl font-semibold mb-2 text-[#E0E0E0]">ქორწილის პაკეტი</h4>
+                    <p class="text-3xl font-bold text-white mb-4">900 ლარი</p>
+                    <ul class="list-disc list-inside text-left text-gray-400 text-sm space-y-2">
+                        <li>მთელი დღის გადაღება</li>
+                        <li>მონტაჟი და ფერთა კორექცია</li>
+                        <li>მოკლე და სრული ვიდეოს მიღება</li>
+                    </ul>
+                </div>
+                <div class="bg-[#193153] p-8 rounded-xl shadow-lg border-b-4 border-[#64FFDA]">
+                    <h4 class="text-xl font-semibold mb-2 text-[#E0E0E0]">ნათლობის პაკეტი</h4>
+                    <p class="text-3xl font-bold text-white mb-4">300 ლარი</p>
+                    <ul class="list-disc list-inside text-left text-gray-400 text-sm space-y-2">
+                        <li>ცერემონიის და წვეულების გადაღება</li>
+                        <li>პროფესიონალური მონტაჟი</li>
+                        <li>ფაილების ონლაინ გაზიარება</li>
+                    </ul>
+                </div>
+                <div class="bg-[#193153] p-8 rounded-xl shadow-lg border-b-4 border-[#64FFDA]">
+                    <h4 class="text-xl font-semibold mb-2 text-[#E0E0E0]">ბანკეტის პაკეტი</h4>
+                    <p class="text-3xl font-bold text-white mb-4">1000 ლარი</p>
+                    <ul class="list-disc list-inside text-left text-gray-400 text-sm space-y-2">
+                        <li>მთელი ღონისძიების გადაღება</li>
+                        <li>ემოციური მონტაჟი</li>
+                        <li>მუსიკალური გაფორმება</li>
+                    </ul>
+                </div>
+                <div class="bg-[#193153] p-8 rounded-xl shadow-lg border-b-4 border-[#64FFDA]">
+                    <h4 class="text-xl font-semibold mb-2 text-[#E0E0E0]">კომერციული პაკეტი</h4>
+                    <p class="text-3xl font-bold text-white mb-4">შეთანხმებით</p>
+                    <ul class="list-disc list-inside text-left text-gray-400 text-sm space-y-2">
+                        <li>ინდივიდუალური სცენარი</li>
+                        <li>პროფესიონალური მონტაჟი</li>
+                        <li>სარეკლამო ვიდეოს შექმნა</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-[#0A192F] rounded-b-3xl">
+        <div class="container mx-auto px-4 text-center">
+            <h3 class="text-4xl font-bold text-[#E0E0E0] mb-4">გაქვთ შეკითხვები? დაგვიკავშირდით!</h3>
+            <p class="text-xl text-gray-400 mb-8">
+                დაგვიკავშირდით თქვენი პროექტის განსახილველად ან დეტალების დასაზუსტებლად.
+            </p>
+            <div class="mt-8 text-gray-500">
+                <p>ტელეფონი: 579579090</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#112240] p-6 text-center text-gray-500 rounded-t-xl">
+        <p>&copy; 2024 Dream studio. ყველა უფლება დაცულია.</p>
+    </footer>
+
+    <!-- Reservation Modal -->
+    <div id="reservation-modal" class="modal">
+        <div class="bg-[#193153] p-8 rounded-2xl shadow-xl w-11/12 md:w-1/2 lg:w-1/3 relative">
+            <button id="close-modal" class="absolute top-4 right-4 text-gray-400 hover:text-white text-3xl font-bold">
+                &times;
+            </button>
+            <h4 class="text-3xl font-bold text-[#64FFDA] mb-6 text-center">დაჯავშნა</h4>
+            <form id="reservation-form" class="space-y-4">
+                <div>
+                    <label for="name" class="block text-gray-400 mb-2">სახელი და გვარი</label>
+                    <input type="text" id="name" name="name" class="w-full p-3 rounded-lg bg-[#112240] text-white focus:outline-none focus:ring-2 focus:ring-[#64FFDA]" required>
+                </div>
+                <div>
+                    <label for="email" class="block text-gray-400 mb-2">ელ.ფოსტა</label>
+                    <input type="email" id="email" name="email" class="w-full p-3 rounded-lg bg-[#112240] text-white focus:outline-none focus:ring-2 focus:ring-[#64FFDA]" required>
+                </div>
+                <div>
+                    <label for="phone" class="block text-gray-400 mb-2">ტელეფონის ნომერი</label>
+                    <input type="tel" id="phone" name="phone" class="w-full p-3 rounded-lg bg-[#112240] text-white focus:outline-none focus:ring-2 focus:ring-[#64FFDA]" required>
+                </div>
+                <div>
+                    <label for="service" class="block text-gray-400 mb-2">სერვისი</label>
+                    <select id="service" name="service" class="w-full p-3 rounded-lg bg-[#112240] text-white focus:outline-none focus:ring-2 focus:ring-[#64FFDA]">
+                        <option value="ქორწილი">ქორწილის გადაღება</option>
+                        <option value="ნათლობა">ნათლობის გადაღება</option>
+                        <option value="ბანკეტი">ბანკეტის გადაღება</option>
+                        <option value="კომერციული">კომერციული გადაღება</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="date" class="block text-gray-400 mb-2">სასურველი თარიღი</label>
+                    <input type="date" id="date" name="date" class="w-full p-3 rounded-lg bg-[#112240] text-white focus:outline-none focus:ring-2 focus:ring-[#64FFDA]" required>
+                </div>
+                <button type="submit" class="w-full bg-[#64FFDA] text-[#0A192F] py-3 rounded-full font-bold shadow-lg hover:bg-[#A8E2D2] transition duration-300 transform hover:scale-105">
+                    გაგზავნა
+                </button>
+            </form>
+            <p id="message-box" class="mt-4 text-center text-green-500 hidden"></p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const reserveButton = document.getElementById('reserve-button');
+            const modal = document.getElementById('reservation-modal');
+            const closeModal = document.getElementById('close-modal');
+            const reservationForm = document.getElementById('reservation-form');
+            const messageBox = document.getElementById('message-box');
+
+            reserveButton.addEventListener('click', () => {
+                modal.style.display = 'flex';
+                messageBox.classList.add('hidden');
+                reservationForm.reset();
+            });
+
+            closeModal.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+
+            reservationForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const formData = new FormData(reservationForm);
+                const data = Object.fromEntries(formData.entries());
+
+                console.log('ჯავშნის მოთხოვნა:', data);
+
+                messageBox.textContent = 'თქვენი ჯავშნის მოთხოვნა წარმატებით გაიგზავნა!';
+                messageBox.classList.remove('hidden');
+                
+                // For a real application, you would send this data to a server.
+                // For example:
+                // fetch('/api/reserve', {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify(data)
+                // }).then(response => {
+                //     if (response.ok) {
+                //         messageBox.textContent = 'თქვენი ჯავშნის მოთხოვნა წარმატებით გაიგზავნა!';
+                //         messageBox.classList.remove('hidden');
+                //     } else {
+                //         messageBox.textContent = 'დაფიქსირდა შეცდომა. სცადეთ მოგვიანებით.';
+                //         messageBox.classList.remove('hidden');
+                //         messageBox.classList.remove('text-green-500');
+                //         messageBox.classList.add('text-red-500');
+                //     }
+                // });
+            });
+        });
+    </script>
+
+</body>
+</html>
