@@ -208,7 +208,9 @@
                 &times;
             </button>
             <h4 class="text-3xl font-bold text-[#64FFDA] mb-6 text-center">დაჯავშნა</h4>
-            <form id="reservation-form" class="space-y-4">
+            <!-- ეს ფორმა იყენებს Formspree-ს მონაცემების vepxoj@gmail.com-ზე გასაგზავნად -->
+            <form id="reservation-form" action="https://formspree.io/f/vepxoj@gmail.com" method="POST" class="space-y-4">
+                <input type="hidden" name="_subject" value="ახალი დაჯავშნა Dream Studio-სგან">
                 <div>
                     <label for="name" class="block text-gray-400 mb-2">სახელი და გვარი</label>
                     <input type="text" id="name" name="name" class="w-full p-3 rounded-lg bg-[#112240] text-white focus:outline-none focus:ring-2 focus:ring-[#64FFDA]" required>
@@ -267,32 +269,12 @@
             });
 
             reservationForm.addEventListener('submit', (event) => {
-                event.preventDefault();
-                const formData = new FormData(reservationForm);
-                const data = Object.fromEntries(formData.entries());
-
-                console.log('ჯავშნის მოთხოვნა:', data);
-
+                // ფორმის გაგზავნა Formspree-ს საშუალებით ხდება, ამიტომ JavaScript-ის ფუნქციონალი საჭირო აღარ არის
+                
+                // შეგიძლიათ დაამატოთ მარტივი შეტყობინება წარმატების შესახებ
+                // Formspree-ს გადამისამართება ხდება, ამიტომ ეს კოდი შეიძლება არ შესრულდეს გადამისამართებამდე
                 messageBox.textContent = 'თქვენი ჯავშნის მოთხოვნა წარმატებით გაიგზავნა!';
                 messageBox.classList.remove('hidden');
-                
-                // For a real application, you would send this data to a server.
-                // For example:
-                // fetch('/api/reserve', {
-                //     method: 'POST',
-                //     headers: { 'Content-Type': 'application/json' },
-                //     body: JSON.stringify(data)
-                // }).then(response => {
-                //     if (response.ok) {
-                //         messageBox.textContent = 'თქვენი ჯავშნის მოთხოვნა წარმატებით გაიგზავნა!';
-                //         messageBox.classList.remove('hidden');
-                //     } else {
-                //         messageBox.textContent = 'დაფიქსირდა შეცდომა. სცადეთ მოგვიანებით.';
-                //         messageBox.classList.remove('hidden');
-                //         messageBox.classList.remove('text-green-500');
-                //         messageBox.classList.add('text-red-500');
-                //     }
-                // });
             });
         });
     </script>
