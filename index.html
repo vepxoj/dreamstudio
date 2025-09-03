@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dream studio - პროფესიონალი ვიდეოგრაფია</title>
+    <title id="page-title">Dream studio - პროფესიონალი ვიდეოგრაფია</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
         
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Roboto', 'Inter', sans-serif;
             background-color: #0A192F;
             color: #E0E0E0;
+            padding-top: 80px; /* To prevent content from being hidden by the fixed header */
         }
 
         .scroll-container {
             overflow-x: auto;
             white-space: nowrap;
             scrollbar-width: thin;
-            scrollbar-color: #64FFDA #193153;
+            scrollbar-color: #FFD700 #193153;
         }
 
         .scroll-container::-webkit-scrollbar {
@@ -31,7 +33,7 @@
         }
 
         .scroll-container::-webkit-scrollbar-thumb {
-            background-color: #64FFDA;
+            background-color: #FFD700;
             border-radius: 10px;
             border: 2px solid #193153;
         }
@@ -49,21 +51,72 @@
             justify-content: center;
             align-items: center;
         }
+
+        /* Styles for expandable content */
+        .content-container {
+            max-height: 200px;
+            overflow: hidden;
+            position: relative;
+            transition: max-height 0.5s ease-in-out;
+        }
+        
+        .content-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to top, rgba(25, 49, 83, 1), rgba(25, 49, 83, 0));
+            transition: opacity 0.5s ease-in-out;
+            pointer-events: none; /* Allows clicks on content below */
+        }
+        
+        .content-container.expanded {
+            max-height: 2000px;
+        }
+        
+        .content-container.expanded::after {
+            opacity: 0;
+        }
+
+        .content-toggle-btn {
+            background-color: transparent;
+            border: none;
+            color: #FFD700;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.3s ease-in-out;
+            margin-top: 1rem;
+        }
+
+        .content-toggle-btn:hover {
+            color: #ffe14d;
+        }
     </style>
 </head>
 <body class="antialiased">
 
     <!-- Header & Navigation -->
-    <header class="bg-[#112240] text-[#E0E0E0] p-6 shadow-lg rounded-b-xl">
+    <header class="bg-[#112240] text-[#E0E0E0] p-4 shadow-lg rounded-b-xl fixed top-0 left-0 w-full z-50">
         <nav class="container mx-auto flex justify-between items-center">
-            <h1 class="text-3xl font-bold text-white">Dream studio</h1>
+            <div class="flex items-center space-x-4">
+                <img src="https://scontent.ftbs3-2.fna.fbcdn.net/v/t39.30808-1/461183933_1041116957916224_6843598613436312905_n.jpg?stp=c87.86.1875.1875a_dst-jpg_s480x480_tt6&_nc_cat=103&ccb=1-7&_nc_sid=2d3e12&_nc_ohc=K5UHv3qbDOMQ7kNvwG5DoVn&_nc_oc=AdmXMzOYj2RqxJK3lZ1l6MA32B8QO53WI-fUdQE6wqla2EggrX26EggRDoFAzqOvPKs&_nc_zt=24&_nc_ht=scontent.ftbs3-2.fna&_nc_gid=z4OotV8V832icLBnH8_8HQ&oh=00_AfZTEVmxAf_6iFr5uSVmnfoVpnQBXh86J7ZsSLtbYtm_Bg&oe=68BE841F" 
+                     alt="Dream studio-ს ლოგო" 
+                     class="h-12 w-12 rounded-full"
+                     onerror="this.src='https://placehold.co/48x48/112240/E0E0E0?text=Logo';">
+                <h1 id="brand-title" class="text-3xl font-bold text-white">Dream studio</h1>
+            </div>
             <div class="space-x-4 flex items-center">
-                <a href="#services" class="hover:text-[#64FFDA] transition duration-300 hidden md:inline">სერვისები</a>
-                <a href="#portfolio" class="hover:text-[#64FFDA] transition duration-300 hidden md:inline">პორტფოლიო</a>
-                <a href="#pricing" class="hover:text-[#64FFDA] transition duration-300 hidden md:inline">ფასები</a>
-                <a href="#contact" class="hover:text-[#64FFDA] transition duration-300 hidden md:inline">კონტაქტი</a>
-                <button id="reserve-button" class="bg-[#64FFDA] text-[#0A192F] py-2 px-6 rounded-full font-bold shadow-lg hover:bg-[#A8E2D2] transition duration-300 transform hover:scale-105 ml-4">
+                <a href="#services" id="nav-services" class="hover:text-white transition duration-300 hidden md:inline">სერვისები</a>
+                <a href="#portfolio" id="nav-portfolio" class="hover:text-white transition duration-300 hidden md:inline">ნამუშევრები</a>
+                <a href="#pricing" id="nav-pricing" class="hover:text-white transition duration-300 hidden md:inline">ფასები</a>
+                <a href="#contact" id="nav-contact" class="hover:text-white transition duration-300 hidden md:inline">კონტაქტი</a>
+                <button id="reserve-button" class="bg-[#FFD700] text-[#0A192F] py-2 px-6 rounded-full font-bold shadow-lg hover:bg-[#ffe14d] transition duration-300 transform hover:scale-105 ml-4">
                     დაჯავშნა
+                </button>
+                <button id="lang-toggle" class="bg-white text-black py-1 px-3 rounded-full font-bold shadow-lg hover:bg-gray-200 transition duration-300">
+                    EN
                 </button>
             </div>
         </nav>
@@ -72,13 +125,13 @@
     <!-- Hero Section -->
     <section class="min-h-screen flex items-center justify-center p-8 text-center bg-black bg-opacity-50">
         <div class="container mx-auto">
-            <h2 class="text-5xl md:text-7xl font-bold text-[#64FFDA] mb-4 drop-shadow-lg">
-                დაიჭირეთ თქვენი მომენტები სამუდამოდ
+            <h2 id="hero-title" class="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-lg transition-transform duration-300">
+                შეინახე თქვენი მომენტები სამუდამოდ
             </h2>
-            <p class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto drop-shadow-md">
+            <p id="hero-subtitle" class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto drop-shadow-md">
                 პროფესიონალური ვიდეოგრაფია ქორწილისთვის, ნათლობისთვის, ბანკეტისთვის და სხვა მნიშვნელოვანი მოვლენისთვის.
             </p>
-            <a href="#services" class="bg-[#64FFDA] text-[#0A192F] py-3 px-8 rounded-full font-bold shadow-lg hover:bg-[#A8E2D2] transition duration-300 transform hover:scale-105">
+            <a href="#services" id="hero-cta" class="bg-[#FFD700] text-[#0A192F] py-3 px-8 rounded-full font-bold shadow-lg hover:bg-[#ffe14d] transition duration-300 transform hover:scale-105">
                 გაიგეთ მეტი
             </a>
         </div>
@@ -87,39 +140,173 @@
     <!-- Services Section -->
     <section id="services" class="py-20 bg-[#112240] rounded-t-3xl">
         <div class="container mx-auto text-center px-4">
-            <h3 class="text-4xl font-bold text-[#64FFDA] mb-12">ჩვენი სერვისები</h3>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <h3 id="services-title" class="text-4xl font-bold text-white mb-12">ჩვენი სერვისები</h3>
+            <div class="flex flex-col gap-8">
                 <!-- Wedding Card -->
-                <div class="bg-[#193153] p-8 rounded-xl shadow-lg transform hover:scale-105 transition duration-300">
-                    <h4 class="text-2xl font-semibold mb-4 text-[#E0E0E0]">ქორწილის ვიდეოგრაფია</h4>
-                    <p class="mb-4 text-gray-400 text-sm">
-                        დაუვიწყარი ემოციები და სიყვარულის ისტორია, რომელიც დროის მიღმა დარჩება. ჩვენი მიზანია, თქვენი ყველაზე ბედნიერი დღე კინემატოგრაფიულ შედევრად ვაქციოთ.
-                    </p>
-                    <a href="#portfolio" class="text-[#64FFDA] font-bold hover:underline">ნახეთ ვიდეოები</a>
+                <div class="bg-[#193153] p-8 rounded-xl shadow-lg transition duration-300">
+                    <h4 id="wedding-title" class="text-2xl font-semibold mb-4 text-[#E0E0E0]">ქორწილის ვიდეოგადაღება – პროფესიონალური ვიდეო მომსახურეობა (საჩუქრად დრონით გადაღება)</h4>
+                    <p class="text-2xl font-bold text-[#FFD700] mb-4">💍 <span id="wedding-price">ფასი: 900 ლარი</span></p>
+                    <div class="content-container">
+                        <p id="wedding-desc" class="mb-4 text-gray-400">
+                            ძვირფასო წყვილო, გთავაზობთ ქორწილის პროფესიონალურ ვიდეო გადაღებას სრული პაკეტით, რომელიც მოიცავს არამხოლოდ მიწიდან, არამედ დრონით გადაღებულ უნიკალურ კადრებსაც.
+                        </p>
+                        <div class="text-left mb-6">
+                            <p id="wedding-list-title1" class="text-lg font-bold text-white mb-2">რას მიიღებთ ამ პაკეტში:</p>
+                            <ul class="list-none space-y-2 text-gray-400">
+                                <li id="wedding-list1">🎥 სრული ვიდეო ულიმიტო ხანგრძლივობით – გადაღებულია 4K ხარისხში</li>
+                                <li id="wedding-list2">✂️ მონტაჟირებული 4–5 წუთიანი კლიპი – შესაფერისი სოციალურ ქსელებში გასაზიარებლად</li>
+                                <li id="wedding-list3">🎁 საჩუქრად – 1-წუთიანი „Reels“ ვიდეო Instagram/Facebook-ისთვის</li>
+                            </ul>
+                        </div>
+                        <div class="text-left mb-6">
+                            <p id="wedding-list-title2" class="text-lg font-bold text-white mb-2">როგორ ვმუშაობთ?</p>
+                            <ul class="list-none space-y-2 text-gray-400">
+                                <li id="wedding-list4">📆 გადაღება იწყება დილიდან (საჭიროებისამებრ) და გრძელდება ღამის 10 საათამდე.</li>
+                                <li id="wedding-list5">📞 გადაღებამდე გავდივართ დეტალურ კონსულტაციას, რათა ყველა მომენტი წინასწარ იყოს დაგეგმილი და სწორად აღბეჭდილი.</li>
+                                <li id="wedding-list6">💳 დაჯავშნისთვის საჭიროა 200 ლარის წინასწარი გადახდა (ბეს სახით).</li>
+                            </ul>
+                        </div>
+                        <div class="text-left mb-6">
+                            <p id="wedding-list-title3" class="text-lg font-bold text-white mb-2">რატომ უნდა აგვირჩიოთ?</p>
+                            <ul class="list-none space-y-2 text-gray-400">
+                                <li id="wedding-list7">✅ მრავალწლიანი გამოცდილება ქორწილის ვიდეო გადაღებაში</li>
+                                <li id="wedding-list8">✅ პროფესიონალური ტექნიკა – 4K კამერა, სტაბილიზატორები, დრონი</li>
+                                <li id="wedding-list9">✅ ინდივიდუალური მიდგომა – თქვენთვის შექმნილი სცენარით</li>
+                                <li id="wedding-list10">✅ სწრაფი მონტაჟი და მაღალი ხარისხი</li>
+                            </ul>
+                        </div>
+                        <p id="wedding-contact" class="text-gray-400">
+                            დაგვიკავშირდით დღესვე და დავგეგმოთ ერთად თქვენი დაუვიწყარი დღის ვიდეო გადაღება – ისე, რომ თითოეული კადრი მეტყველებდეს სიყვარულზე. 📩
+                        </p>
+                    </div>
+                    <button class="content-toggle-btn" id="wedding-toggle">სრულად ნახვა</button>
                 </div>
                 <!-- Baptism Card -->
-                <div class="bg-[#193153] p-8 rounded-xl shadow-lg transform hover:scale-105 transition duration-300">
-                    <h4 class="text-2xl font-semibold mb-4 text-[#E0E0E0]">ნათლობის ვიდეოგრაფია</h4>
-                    <p class="mb-4 text-gray-400 text-sm">
-                        დაიჭირეთ თქვენი ბავშვის პირველი ნაბიჯები სულიერ ცხოვრებაში. ჩვენ ვქმნით თბილ და ემოციურ ვიდეოებს, რომლებიც აღწერს ამ განსაკუთრებულ დღეს.
-                    </p>
-                    <a href="#portfolio" class="text-[#64FFDA] font-bold hover:underline">ნახეთ ვიდეოები</a>
+                <div class="bg-[#193153] p-8 rounded-xl shadow-lg transition duration-300">
+                    <h4 id="baptism-title" class="text-2xl font-semibold mb-4 text-[#E0E0E0]">ნათლობის ვიდეოგადაღება – პროფესიონალური ვიდეო მომსახურეობა ეკლესიაში</h4>
+                    <p class="text-2xl font-bold text-[#FFD700] mb-4">👶 <span id="baptism-price">ფასი: 300 ლარი</span></p>
+                    <div class="content-container">
+                        <p id="baptism-desc" class="mb-4 text-gray-400">
+                            გთავაზობთ ნათლობის პროფესიონალურ ვიდეო მომსახურეობას, რომელიც მოიცავს ეკლესიაში და ეკლესიის ეზოში გადაღებას. ჩვენი მიზანია, რომ ეს მნიშვნელოვანი სულიერი დღე სიყვარულით და სიფაქიზით დარჩეს ვიდეოს სახით.
+                        </p>
+                        <div class="text-left mb-6">
+                            <p id="baptism-list-title1" class="text-lg font-bold text-white mb-2">რას მიიღებთ ამ პაკეტში:</p>
+                            <ul class="list-none space-y-2 text-gray-400">
+                                <li id="baptism-list1">🎥 სრული ვიდეო – გადაღებულია ეკლესიაში და ეზოში, ულამაზესი დეტალებით</li>
+                                <li id="baptism-list2">✂️ მოკლე მონტაჟირებული კლიპი – შესაფერისი სოციალურ ქსელებში გასაზიარებლად</li>
+                                <li id="baptism-list3">🎁 საჩუქრად – 1-წუთიანი „Reels“ ვიდეო Instagram/Facebook-ისთვის</li>
+                            </ul>
+                        </div>
+                        <div class="text-left mb-6">
+                            <p id="baptism-list-title2" class="text-lg font-bold text-white mb-2">როგორ ვმუშაობთ?</p>
+                            <ul class="list-none space-y-2 text-gray-400">
+                                <li id="baptism-list4">📍 ვიღებთ მხოლოდ ეკლესიაში და მის ეზოში – ნაზად, ფრთხილად და რელიგიური სივრცის პატივისცემით.</li>
+                                <li id="baptism-list5">📞 გადაღებამდე ვგეგმავთ დეტალებს წინასწარ – მშობლებთან და ნათლიებთან კომუნიკაცია საშუალებას გვაძლევს, სწორად დავაწყვილოთ სცენა და კადრები.</li>
+                                <li id="baptism-list6">💳 დაჯავშნისთვის საჭიროა 100 ლარის წინასწარი გადახდა.</li>
+                            </ul>
+                        </div>
+                        <div class="text-left mb-6">
+                            <p id="baptism-list-title3" class="text-lg font-bold text-white mb-2">რატომ უნდა აგვირჩიოთ?</p>
+                            <ul class="list-none space-y-2 text-gray-400">
+                                <li id="baptism-list7">✅ სენსიტიური და ემოციური მომენტების გადაღების გამოცდილება</li>
+                                <li id="baptism-list8">✅ პროფესიონალური ტექნიკა – მაღალი ხარისხის კამერები და სტაბილიზატორები</li>
+                                <li id="baptism-list9">✅ სწრაფი მონტაჟი, მკაფიო ხმა და ნაზი ფერები</li>
+                                <li id="baptism-list10">✅ ინდივიდუალური მიდგომა ყოველი ოჯახისადმი</li>
+                            </ul>
+                        </div>
+                        <p id="baptism-contact" class="text-gray-400">
+                            დაგვიკავშირდით დღესვე და ვაქციოთ თქვენი ბავშვის ნათლობა სუფთა ემოციებით სავსე ვიდეო მოგონებად. 📩
+                        </p>
+                    </div>
+                    <button class="content-toggle-btn" id="baptism-toggle">სრულად ნახვა</button>
                 </div>
                 <!-- Banquet Card -->
-                <div class="bg-[#193153] p-8 rounded-xl shadow-lg transform hover:scale-105 transition duration-300">
-                    <h4 class="text-2xl font-semibold mb-4 text-[#E0E0E0]">ბანკეტის გადაღება</h4>
-                    <p class="mb-4 text-gray-400 text-sm">
-                        სკოლის დამთავრების, იუბილეებისა და სხვა საზეიმო ღონისძიებების დაუვიწყარი მომენტები, გადმოცემული თანამედროვე და ცოცხალი ვიდეოებით.
-                    </p>
-                    <a href="#portfolio" class="text-[#64FFDA] font-bold hover:underline">ნახეთ ვიდეოები</a>
+                <div class="bg-[#193153] p-8 rounded-xl shadow-lg transition duration-300">
+                    <h4 id="banquet-title" class="text-2xl font-semibold mb-4 text-[#E0E0E0]">ბანკეტის ვიდეოგადაღება დრონით – სრულფასოვანი ვიდეო მომსახურეობა</h4>
+                    <p class="text-2xl font-bold text-[#FFD700] mb-4">🎉 <span id="banquet-price">ფასი: 1000 ლარი</span></p>
+                    <div class="content-container">
+                        <p id="banquet-desc" class="mb-4 text-gray-400">
+                            გთავაზობთ პროფესიონალურ ბანკეტის ვიდეო გადაღებას, რომელიც მოიცავს დღის ყველა მნიშვნელოვან მომენტს – დაწყებული მზადებით, დამთავრებული ცეკვებით, ტოსტებითა და დაუვიწყარი ემოციებით.
+                            📍 გადაღება იწყება დილიდან (საჭიროებისამებრ) და გრძელდება ღამის 10 საათამდე. ვიყენებთ როგორც მიწიდან გადაღების პროფესიულ ტექნიკას, ასევე დრონს, რათა თქვენი დღესასწაული ზუსტად ისე გამოჩნდეს, როგორც ფილმებში.
+                        </p>
+                        <div class="text-left mb-6">
+                            <p id="banquet-list-title1" class="text-lg font-bold text-white mb-2">რას მოიცავს პაკეტი:</p>
+                            <ul class="list-none space-y-2 text-gray-400">
+                                <li id="banquet-list1">🎥 სრული ვიდეო ულიმიტო ხანგრძლივობით – გადაღებული 4K ხარისხით</li>
+                                <li id="banquet-list2">✂️ მონტაჟირებული 4–5 წუთიანი კლიპი – საუკეთესო მომენტების ამონარიდებით</li>
+                                <li id="banquet-list3">🎁 საჩუქრად – 1-წუთიანი Instagram/Facebook Reels ვიდეო</li>
+                                <li id="banquet-list4">🚁 დრონით გადაღებული უნიკალური საჰაერო კადრები – ღონისძიების ფართო ხედით</li>
+                            </ul>
+                        </div>
+                        <div class="text-left mb-6">
+                            <p id="banquet-list-title2" class="text-lg font-bold text-white mb-2">როგორ ვმუშაობთ?</p>
+                            <ul class="list-none space-y-2 text-gray-400">
+                                <li id="banquet-list5">📞 გადაღებამდე ვგეგმავთ ყველა დეტალს – ვესაუბრებით ორგანიზატორებს, მასწავლებლებს, თუ საჭირო იქნება – თქვენს მეგობრებსაც კი, რათა კადრები მაქსიმალურად ავსახოთ თქვენზე მორგებული ხედვით.</li>
+                                <li id="banquet-list6">💳 დაჯავშნისთვის საჭიროა 200 ლარის წინასწარი გადახდა.</li>
+                            </ul>
+                        </div>
+                        <div class="text-left mb-6">
+                            <p id="banquet-list-title3" class="text-lg font-bold text-white mb-2">რატომ აგვირჩიოთ?</p>
+                            <ul class="list-none space-y-2 text-gray-400">
+                                <li id="banquet-list7">✅ დიდი გამოცდილება ბანკეტებისა და კურსდამთავრებული ღონისძიებების გადაღებაში</li>
+                                <li id="banquet-list8">✅ პროფესიონალური ვიდეო ტექნიკა – კამერები, სტაბილიზატორები და დრონი</li>
+                                <li id="banquet-list9">✅ ინდივიდუალური მიდგომა – თითოეულ დამკვეთთან დეტალური კომუნიკაცია</li>
+                                <li id="banquet-list10">✅ მაღალხარისხიანი მონტაჟი, შესაფერისი მუსიკალური გაფორმება და ემოციური თხრობა</li>
+                            </ul>
+                        </div>
+                        <p id="banquet-contact" class="text-gray-400">
+                            დაგვიკავშირდით დღესვე და ერთად შევქმნათ ვიდეო, რომელიც გაყიდის თქვენს იდეას.📩
+                        </p>
+                    </div>
+                    <button class="content-toggle-btn" id="banquet-toggle">სრულად ნახვა</button>
                 </div>
                 <!-- Commercial Card -->
-                <div class="bg-[#193153] p-8 rounded-xl shadow-lg transform hover:scale-105 transition duration-300">
-                    <h4 class="text-2xl font-semibold mb-4 text-[#E0E0E0]">კომერციული გადაღება</h4>
-                    <p class="mb-4 text-gray-400 text-sm">
-                        გამოიყენეთ ვიდეოს ძალა თქვენი ბიზნესის წარმოსაჩენად. ვქმნით პროდუქციის ვიდეოებს, სარეკლამო რგოლებს და კორპორატიულ ვიდეოებს.
-                    </p>
-                    <a href="#contact" class="text-[#64FFDA] font-bold hover:underline">გაიგეთ მეტი</a>
+                <div class="bg-[#193153] p-8 rounded-xl shadow-lg transition duration-300">
+                    <h4 id="commercial-title" class="text-2xl font-semibold mb-4 text-[#E0E0E0]">კომერციული ვიდეოგადაღება – პროფესიონალური ვიდეო მომსახურეობა თქვენი ბიზნესისთვის</h4>
+                    <p class="text-2xl font-bold text-[#FFD700] mb-4">🏢 <span id="commercial-price">ფასი: ინდივიდუალური შეთანხმებით</span></p>
+                    <div class="content-container">
+                        <p id="commercial-desc" class="mb-4 text-gray-400">
+                            ეძებთ ვინმეს, ვინც თქვენი ბიზნესის იდეას კადრებად აქცევს? ჩვენ გთავაზობთ სრულფასოვან კომერციულ ვიდეო გადაღებას, რომელიც შექმნილია თქვენი მიზნების, აუდიტორიის და ბრენდის სტილზე მორგებით.
+                        </p>
+                        <div class="text-left mb-6">
+                            <p id="commercial-list-title1" class="text-lg font-bold text-white mb-2">რას შეიძლება მოიცავდეს კომერციული ვიდეოგადაღება:</p>
+                            <ul class="list-none space-y-2 text-gray-400">
+                                <li id="commercial-list1">📦 პროდუქტის ან სერვისის ვიდეო რეკლამა</li>
+                                <li id="commercial-list2">🏗️ კომპანიის, ოფისის ან ობიექტის პრეზენტაცია</li>
+                                <li id="commercial-list3">🎤 ინტერვიუები და თანამშრომელთა კომენტარები</li>
+                                <li id="commercial-list4">🕹️ დრონით გადაღებული მაღალი ხარისხის საჰაერო კადრები</li>
+                                <li id="commercial-list5">✂️ მოკლე კლიპები სოციალური მედიისთვის (Reels, TikTok, YouTube Shorts)</li>
+                                <li id="commercial-list6">🎞️ ბრენდის პრეზენტაციული ვიდეოები</li>
+                            </ul>
+                        </div>
+                        <div class="text-left mb-6">
+                            <p id="commercial-list-title2" class="text-lg font-bold text-white mb-2">როგორ ვმუშაობთ?</p>
+                            <ul class="list-none space-y-2 text-gray-400">
+                                <li id="commercial-list7">📞 გადაღებამდე ვატარებთ დეტალურ კომუნიკაციას – ვიცნობთ თქვენს პროდუქტს, მიზნებსა და აუდიტორიას. თითოეული კადრი ისე იგეგმება, რომ მაქსიმალურად მოერგოს თქვენს ვიზუალურ სტილს და კომუნიკაციის ტონს.</li>
+                                <li id="commercial-list8">🎥 გადაღებაში გამოიყენება პროფესიონალური ტექნიკა:</li>
+                                <ul class="list-disc list-inside space-y-1 ml-4 text-gray-500">
+                                    <li id="commercial-list9">4K კამერები</li>
+                                    <li id="commercial-list10">სტაბილიზატორები</li>
+                                    <li id="commercial-list11">დრონი (საჭიროებისამებრ)</li>
+                                    <li id="commercial-list12">მაღალი ხარისხის აუდიო მოწყობილობები</li>
+                                </ul>
+                                <li id="commercial-list13">💬 ფასი დგინდება პროექტის სირთულიდან, ხანგრძლივობიდან და მასშტაბიდან გამომდინარე.</li>
+                            </ul>
+                        </div>
+                        <div class="text-left mb-6">
+                            <p id="commercial-list-title3" class="text-lg font-bold text-white mb-2">რატომ უნდა აგვირჩიოთ?</p>
+                            <ul class="list-none space-y-2 text-gray-400">
+                                <li id="commercial-list14">✅ გამოცდილება სხვადასხვა ინდუსტრიის ბრენდებთან მუშაობაში</li>
+                                <li id="commercial-list15">✅ ეფექტიანი სცენარიზაცია და ვიზუალური თხრობა</li>
+                                <li id="commercial-list16">✅ ხარისხიანი კადრები, თანამედროვე მონტაჟი და დროული ჩაბარება</li>
+                                <li id="commercial-list17">✅ თქვენზე მორგებული სერვისი – მცირე ბიზნესიდან მსხვილ კომპანიებამდე</li>
+                            </ul>
+                        </div>
+                        <p id="commercial-contact" class="text-gray-400">
+                            დაგვიკავშირდით დღესვე და ერთად შევქმნათ ვიდეო, რომელიც გაყიდის თქვენს იდეას.📩
+                        </p>
+                    </div>
+                    <button class="content-toggle-btn" id="commercial-toggle">სრულად ნახვა</button>
                 </div>
             </div>
         </div>
@@ -128,7 +315,7 @@
     <!-- Portfolio Section -->
     <section id="portfolio" class="py-20 bg-[#0A192F]">
         <div class="container mx-auto px-4">
-            <h3 class="text-3xl font-bold text-[#E0E0E0] mb-8 text-center md:text-left">ჩვენი პორტფოლიო</h3>
+            <h3 id="portfolio-title" class="text-3xl font-bold text-[#E0E0E0] mb-8 text-center md:text-left">ნამუშევრები</h3>
             <div class="scroll-container flex space-x-4 pb-4">
                 <iframe class="w-[300px] md:w-[560px] h-[169px] md:h-[315px] flex-shrink-0 rounded-lg shadow-xl" src="https://www.youtube.com/embed/FO33jVWLXYs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 <iframe class="w-[300px] md:w-[560px] h-[169px] md:h-[315px] flex-shrink-0 rounded-lg shadow-xl" src="https://www.youtube.com/embed/6LJQZ-OLB1Y" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -141,42 +328,42 @@
     <!-- Pricing Section -->
     <section id="pricing" class="py-20 bg-[#112240]">
         <div class="container mx-auto px-4 text-center">
-            <h3 class="text-4xl font-bold text-[#64FFDA] mb-12">ჩვენი ფასები</h3>
-            <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-                <div class="bg-[#193153] p-8 rounded-xl shadow-lg border-b-4 border-[#64FFDA]">
-                    <h4 class="text-xl font-semibold mb-2 text-[#E0E0E0]">ქორწილის პაკეტი</h4>
-                    <p class="text-3xl font-bold text-white mb-4">900 ლარი</p>
+            <h3 id="pricing-title" class="text-4xl font-bold text-white mb-12">ჩვენი ფასები</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                <div class="bg-[#193153] p-8 rounded-xl shadow-lg border-b-4 border-[#FFD700]">
+                    <h4 id="pricing-wedding-title" class="text-xl font-semibold mb-2 text-[#E0E0E0]">ქორწილის პაკეტი</h4>
+                    <p class="text-3xl font-bold text-white mb-4" id="pricing-wedding-price">900 ლარი</p>
                     <ul class="list-disc list-inside text-left text-gray-400 text-sm space-y-2">
-                        <li>მთელი დღის გადაღება</li>
-                        <li>მონტაჟი და ფერთა კორექცია</li>
-                        <li>მოკლე და სრული ვიდეოს მიღება</li>
+                        <li id="pricing-wedding-list1">მთელი დღის გადაღება</li>
+                        <li id="pricing-wedding-list2">მონტაჟი და ფერთა კორექცია</li>
+                        <li id="pricing-wedding-list3">მოკლე და სრული ვიდეოს მიღება</li>
                     </ul>
                 </div>
-                <div class="bg-[#193153] p-8 rounded-xl shadow-lg border-b-4 border-[#64FFDA]">
-                    <h4 class="text-xl font-semibold mb-2 text-[#E0E0E0]">ნათლობის პაკეტი</h4>
-                    <p class="text-3xl font-bold text-white mb-4">300 ლარი</p>
+                <div class="bg-[#193153] p-8 rounded-xl shadow-lg border-b-4 border-[#FFD700]">
+                    <h4 id="pricing-baptism-title" class="text-xl font-semibold mb-2 text-[#E0E0E0]">ნათლობის პაკეტი</h4>
+                    <p class="text-3xl font-bold text-white mb-4" id="pricing-baptism-price">300 ლარი</p>
                     <ul class="list-disc list-inside text-left text-gray-400 text-sm space-y-2">
-                        <li>ცერემონიის და წვეულების გადაღება</li>
-                        <li>პროფესიონალური მონტაჟი</li>
-                        <li>ფაილების ონლაინ გაზიარება</li>
+                        <li id="pricing-baptism-list1">ცერემონიის და წვეულების გადაღება</li>
+                        <li id="pricing-baptism-list2">პროფესიონალური მონტაჟი</li>
+                        <li id="pricing-baptism-list3">ფაილების ონლაინ გაზიარება</li>
                     </ul>
                 </div>
-                <div class="bg-[#193153] p-8 rounded-xl shadow-lg border-b-4 border-[#64FFDA]">
-                    <h4 class="text-xl font-semibold mb-2 text-[#E0E0E0]">ბანკეტის პაკეტი</h4>
-                    <p class="text-3xl font-bold text-white mb-4">1000 ლარი</p>
+                <div class="bg-[#193153] p-8 rounded-xl shadow-lg border-b-4 border-[#FFD700]">
+                    <h4 id="pricing-banquet-title" class="text-xl font-semibold mb-2 text-[#E0E0E0]">ბანკეტის პაკეტი</h4>
+                    <p class="text-3xl font-bold text-white mb-4" id="pricing-banquet-price">1000 ლარი</p>
                     <ul class="list-disc list-inside text-left text-gray-400 text-sm space-y-2">
-                        <li>მთელი ღონისძიების გადაღება</li>
-                        <li>ემოციური მონტაჟი</li>
-                        <li>მუსიკალური გაფორმება</li>
+                        <li id="pricing-banquet-list1">მთელი ღონისძიების გადაღება</li>
+                        <li id="pricing-banquet-list2">ემოციური მონტაჟი</li>
+                        <li id="pricing-banquet-list3">მუსიკალური გაფორმება</li>
                     </ul>
                 </div>
-                <div class="bg-[#193153] p-8 rounded-xl shadow-lg border-b-4 border-[#64FFDA]">
-                    <h4 class="text-xl font-semibold mb-2 text-[#E0E0E0]">კომერციული პაკეტი</h4>
-                    <p class="text-3xl font-bold text-white mb-4">შეთანხმებით</p>
+                <div class="bg-[#193153] p-8 rounded-xl shadow-lg border-b-4 border-[#FFD700]">
+                    <h4 id="pricing-commercial-title" class="text-xl font-semibold mb-2 text-[#E0E0E0]">კომერციული პაკეტი</h4>
+                    <p class="text-3xl font-bold text-white mb-4" id="pricing-commercial-price">შეთანხმებით</p>
                     <ul class="list-disc list-inside text-left text-gray-400 text-sm space-y-2">
-                        <li>ინდივიდუალური სცენარი</li>
-                        <li>პროფესიონალური მონტაჟი</li>
-                        <li>სარეკლამო ვიდეოს შექმნა</li>
+                        <li id="pricing-commercial-list1">ინდივიდუალური სცენარი</li>
+                        <li id="pricing-commercial-list2">პროფესიონალური მონტაჟი</li>
+                        <li id="pricing-commercial-list3">სარეკლამო ვიდეოს შექმნა</li>
                     </ul>
                 </div>
             </div>
@@ -186,19 +373,55 @@
     <!-- Contact Section -->
     <section id="contact" class="py-20 bg-[#0A192F] rounded-b-3xl">
         <div class="container mx-auto px-4 text-center">
-            <h3 class="text-4xl font-bold text-[#E0E0E0] mb-4">გაქვთ შეკითხვები? დაგვიკავშირდით!</h3>
-            <p class="text-xl text-gray-400 mb-8">
-                დაგვიკავშირდით თქვენი პროექტის განსახილველად ან დეტალების დასაზუსტებლად.
+            <h3 id="contact-title" class="text-4xl font-bold text-[#E0E0E0] mb-4">დამიკავშირდით!</h3>
+            <p id="contact-subtitle" class="text-xl text-gray-400 mb-8">
+                აირჩიეთ სასურველი ღილაკი ჩვენთან დასაკავშირებლად.
             </p>
-            <div class="mt-8 text-gray-500">
-                <p>ტელეფონი: 579579090</p>
+            
+            <!-- Contact Buttons with Icons -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
+                <!-- ზარის ღილაკი -->
+                <a href="tel:+995579579090" class="flex flex-col items-center justify-center p-4 rounded-xl shadow-lg hover:bg-white/10 transition duration-300">
+                    <img src="https://martten.com/imgs/call.png"
+                         alt="ზარის ხატულა"
+                         class="w-12 h-12 mb-2 rounded-xl"
+                         onerror="this.src='https://placehold.co/48x48/FFD700/0A192F?text=Call';">
+                    <span id="contact-call" class="text-lg font-semibold text-white">ზარი</span>
+                </a>
+                
+                <!-- SMS ღილაკი -->
+                <a href="sms:+995579579090" class="flex flex-col items-center justify-center p-4 rounded-xl shadow-lg hover:bg-white/10 transition duration-300">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/IMessage_logo.svg/1024px-IMessage_logo.svg.png" 
+                         alt="iMessage logo" 
+                         class="w-12 h-12 mb-2 rounded-xl"
+                         onerror="this.src='https://placehold.co/48x48/ffffff/000000?text=SMS';">
+                    <span id="contact-sms" class="text-lg font-semibold text-white">SMS</span>
+                </a>
+
+                <!-- ინსტაგრამის ღილაკი -->
+                <a href="https://www.instagram.com/dream_studio11111/" target="_blank" class="flex flex-col items-center justify-center p-4 rounded-xl shadow-lg hover:bg-white/10 transition duration-300">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" 
+                         alt="Instagram Icon" 
+                         class="w-12 h-12 mb-2 rounded-xl"
+                         onerror="this.src='https://placehold.co/48x48/ff00ff/ffffff?text=IG';">
+                    <span id="contact-instagram" class="text-lg font-semibold text-white">Instagram</span>
+                </a>
+                
+                <!-- ფეისბუქის ღილაკი -->
+                <a href="https://www.facebook.com/profile.php?id=100060537889670" target="_blank" class="flex flex-col items-center justify-center p-4 rounded-xl shadow-lg hover:bg-white/10 transition duration-300">
+                    <img src="https://www.freeiconspng.com/uploads/fb-logo-icon-facebook-26.png" 
+                         alt="Facebook Icon" 
+                         class="w-12 h-12 mb-2 rounded-xl"
+                         onerror="this.src='https://placehold.co/48x48/007FFF/ffffff?text=FB';">
+                    <span id="contact-facebook" class="text-lg font-semibold text-white">Facebook</span>
+                </a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="bg-[#112240] p-6 text-center text-gray-500 rounded-t-xl">
-        <p>&copy; 2024 Dream studio. ყველა უფლება დაცულია.</p>
+        <p id="footer-text">&copy; 2024 Dream studio. ყველა უფლება დაცულია.</p>
     </footer>
 
     <!-- Reservation Modal -->
@@ -207,36 +430,35 @@
             <button id="close-modal" class="absolute top-4 right-4 text-gray-400 hover:text-white text-3xl font-bold">
                 &times;
             </button>
-            <h4 class="text-3xl font-bold text-[#64FFDA] mb-6 text-center">დაჯავშნა</h4>
-            <!-- ეს ფორმა იყენებს Formspree-ს მონაცემების vepxoj@gmail.com-ზე გასაგზავნად -->
+            <h4 id="modal-title" class="text-3xl font-bold text-white mb-6 text-center">დაჯავშნა</h4>
             <form id="reservation-form" class="space-y-4">
                 <input type="hidden" name="_subject" value="ახალი დაჯავშნა Dream Studio-სგან">
                 <div>
-                    <label for="name" class="block text-gray-400 mb-2">სახელი და გვარი</label>
-                    <input type="text" id="name" name="name" class="w-full p-3 rounded-lg bg-[#112240] text-white focus:outline-none focus:ring-2 focus:ring-[#64FFDA]" required>
+                    <label for="name" id="name-label" class="block text-gray-400 mb-2">სახელი და გვარი</label>
+                    <input type="text" id="name" name="name" class="w-full p-3 rounded-lg bg-[#112240] text-white focus:outline-none focus:ring-2 focus:ring-white" required>
                 </div>
                 <div>
-                    <label for="email" class="block text-gray-400 mb-2">ელ.ფოსტა</label>
-                    <input type="email" id="email" name="email" class="w-full p-3 rounded-lg bg-[#112240] text-white focus:outline-none focus:ring-2 focus:ring-[#64FFDA]" required>
+                    <label for="email" id="email-label" class="block text-gray-400 mb-2">ელ.ფოსტა</label>
+                    <input type="email" id="email" name="email" class="w-full p-3 rounded-lg bg-[#112240] text-white focus:outline-none focus:ring-2 focus:ring-white" required>
                 </div>
                 <div>
-                    <label for="phone" class="block text-gray-400 mb-2">ტელეფონის ნომერი</label>
-                    <input type="tel" id="phone" name="phone" class="w-full p-3 rounded-lg bg-[#112240] text-white focus:outline-none focus:ring-2 focus:ring-[#64FFDA]" required>
+                    <label for="phone" id="phone-label" class="block text-gray-400 mb-2">ტელეფონის ნომერი</label>
+                    <input type="tel" id="phone" name="phone" class="w-full p-3 rounded-lg bg-[#112240] text-white focus:outline-none focus:ring-2 focus:ring-white" required>
                 </div>
                 <div>
-                    <label for="service" class="block text-gray-400 mb-2">სერვისი</label>
-                    <select id="service" name="service" class="w-full p-3 rounded-lg bg-[#112240] text-white focus:outline-none focus:ring-2 focus:ring-[#64FFDA]">
-                        <option value="ქორწილი">ქორწილის გადაღება</option>
-                        <option value="ნათლობა">ნათლობის გადაღება</option>
-                        <option value="ბანკეტი">ბანკეტის გადაღება</option>
-                        <option value="კომერციული">კომერციული გადაღება</option>
+                    <label for="service" id="service-label" class="block text-gray-400 mb-2">სერვისი</label>
+                    <select id="service" name="service" class="w-full p-3 rounded-lg bg-[#112240] text-white focus:outline-none focus:ring-2 focus:ring-white">
+                        <option value="ქორწილი" id="option-wedding">ქორწილის გადაღება</option>
+                        <option value="ნათლობა" id="option-baptism">ნათლობის გადაღება</option>
+                        <option value="ბანკეტი" id="option-banquet">ბანკეტის გადაღება</option>
+                        <option value="კომერციული" id="option-commercial">კომერციული გადაღება</option>
                     </select>
                 </div>
                 <div>
-                    <label for="date" class="block text-gray-400 mb-2">სასურველი თარიღი</label>
-                    <input type="date" id="date" name="date" class="w-full p-3 rounded-lg bg-[#112240] text-white focus:outline-none focus:ring-2 focus:ring-[#64FFDA]" required>
+                    <label for="date" id="date-label" class="block text-gray-400 mb-2">სასურველი თარიღი</label>
+                    <input type="date" id="date" name="date" class="w-full p-3 rounded-lg bg-[#112240] text-white focus:outline-none focus:ring-2 focus:ring-white" required>
                 </div>
-                <button type="submit" class="w-full bg-[#64FFDA] text-[#0A192F] py-3 rounded-full font-bold shadow-lg hover:bg-[#A8E2D2] transition duration-300 transform hover:scale-105">
+                <button type="submit" id="submit-button" class="w-full bg-[#FFD700] text-[#0A192F] py-3 rounded-full font-bold shadow-lg hover:bg-[#ffe14d] transition duration-300 transform hover:scale-105">
                     გაგზავნა
                 </button>
             </form>
@@ -246,11 +468,429 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const translations = {
+                ka: {
+                    pageTitle: "Dream studio - პროფესიონალი ვიდეოგრაფია",
+                    navServices: "სერვისები",
+                    navPortfolio: "ნამუშევრები",
+                    navPricing: "ფასები",
+                    navContact: "კონტაქტი",
+                    reserveButton: "დაჯავშნა",
+                    heroTitle: "შეინახე თქვენი მომენტები სამუდამოდ",
+                    heroSubtitle: "პროფესიონალური ვიდეოგრაფია ქორწილისთვის, ნათლობისთვის, ბანკეტისთვის და სხვა მნიშვნელოვანი მოვლენისთვის.",
+                    heroCta: "გაიგეთ მეტი",
+                    servicesTitle: "ჩვენი სერვისები",
+                    weddingTitle: "ქორწილის ვიდეოგადაღება – პროფესიონალური ვიდეო მომსახურეობა (საჩუქრად დრონით გადაღება)",
+                    weddingPrice: "ფასი: 900 ლარი",
+                    weddingDesc: "ძვირფასო წყვილო, გთავაზობთ ქორწილის პროფესიონალურ ვიდეო გადაღებას სრული პაკეტით, რომელიც მოიცავს არამხოლოდ მიწიდან, არამედ დრონით გადაღებულ უნიკალურ კადრებსაც.",
+                    weddingListTitle1: "რას მიიღებთ ამ პაკეტში:",
+                    weddingList1: "🎥 სრული ვიდეო ულიმიტო ხანგრძლივობით – გადაღებულია 4K ხარისხში",
+                    weddingList2: "✂️ მონტაჟირებული 4–5 წუთიანი კლიპი – შესაფერისი სოციალურ ქსელებში გასაზიარებლად",
+                    weddingList3: "🎁 საჩუქრად – 1-წუთიანი „Reels“ ვიდეო Instagram/Facebook-ისთვის",
+                    weddingListTitle2: "როგორ ვმუშაობთ?",
+                    weddingList4: "📆 გადაღება იწყება დილიდან (საჭიროებისამებრ) და გრძელდება ღამის 10 საათამდე.",
+                    weddingList5: "📞 გადაღებამდე გავდივართ დეტალურ კონსულტაციას, რათა ყველა მომენტი წინასწარ იყოს დაგეგმილი და სწორად აღბეჭდილი.",
+                    weddingList6: "💳 დაჯავშნისთვის საჭიროა 200 ლარის წინასწარი გადახდა (ბეს სახით).",
+                    weddingListTitle3: "რატომ უნდა აგვირჩიოთ?",
+                    weddingList7: "✅ მრავალწლიანი გამოცდილება ქორწილის ვიდეო გადაღებაში",
+                    weddingList8: "✅ პროფესიონალური ტექნიკა – 4K კამერა, სტაბილიზატორები, დრონი",
+                    weddingList9: "✅ ინდივიდუალური მიდგომა – თქვენთვის შექმნილი სცენარით",
+                    weddingList10: "✅ სწრაფი მონტაჟი და მაღალი ხარისხი",
+                    weddingContact: "დაგვიკავშირდით დღესვე და დავგეგმოთ ერთად თქვენი დაუვიწყარი დღის ვიდეო გადაღება – ისე, რომ თითოეული კადრი მეტყველებდეს სიყვარულზე. 📩",
+                    baptismTitle: "ნათლობის ვიდეოგადაღება – პროფესიონალური ვიდეო მომსახურეობა ეკლესიაში",
+                    baptismPrice: "ფასი: 300 ლარი",
+                    baptismDesc: "გთავაზობთ ნათლობის პროფესიონალურ ვიდეო მომსახურეობას, რომელიც მოიცავს ეკლესიაში და ეკლესიის ეზოში გადაღებას. ჩვენი მიზანია, რომ ეს მნიშვნელოვანი სულიერი დღე სიყვარულით და სიფაქიზით დარჩეს ვიდეოს სახით.",
+                    baptismListTitle1: "რას მიიღებთ ამ პაკეტში:",
+                    baptismList1: "🎥 სრული ვიდეო – გადაღებულია ეკლესიაში და ეზოში, ულამაზესი დეტალებით",
+                    baptismList2: "✂️ მოკლე მონტაჟირებული კლიპი – შესაფერისი სოციალურ ქსელებში გასაზიარებლად",
+                    baptismList3: "🎁 საჩუქრად – 1-წუთიანი „Reels“ ვიდეო Instagram/Facebook-ისთვის",
+                    baptismListTitle2: "როგორ ვმუშაობთ?",
+                    baptismList4: "📍 ვიღებთ მხოლოდ ეკლესიაში და მის ეზოში – ნაზად, ფრთხილად და რელიგიური სივრცის პატივისცემით.",
+                    baptismList5: "📞 გადაღებამდე ვგეგმავთ დეტალებს წინასწარ – მშობლებთან და ნათლიებთან კომუნიკაცია საშუალებას გვაძლევს, სწორად დავაწყვილოთ სცენა და კადრები.",
+                    baptismList6: "💳 დაჯავშნისთვის საჭიროა 100 ლარის წინასწარი გადახდა.",
+                    baptismListTitle3: "რატომ უნდა აგვირჩიოთ?",
+                    baptismList7: "✅ სენსიტიური და ემოციური მომენტების გადაღების გამოცდილება",
+                    baptismList8: "✅ პროფესიონალური ტექნიკა – მაღალი ხარისხის კამერები და სტაბილიზატორები",
+                    baptismList9: "✅ სწრაფი მონტაჟი, მკაფიო ხმა და ნაზი ფერები",
+                    baptismList10: "✅ ინდივიდუალური მიდგომა ყოველი ოჯახისადმი",
+                    baptismContact: "დაგვიკავშირდით დღესვე და ვაქციოთ თქვენი ბავშვის ნათლობა სუფთა ემოციებით სავსე ვიდეო მოგონებად. 📩",
+                    banquetTitle: "ბანკეტის ვიდეოგადაღება დრონით – სრულფასოვანი ვიდეო მომსახურეობა",
+                    banquetPrice: "ფასი: 1000 ლარი",
+                    banquetDesc: "გთავაზობთ პროფესიონალურ ბანკეტის ვიდეო გადაღებას, რომელიც მოიცავს დღის ყველა მნიშვნელოვან მომენტს – დაწყებული მზადებით, დამთავრებული ცეკვებით, ტოსტებითა და დაუვიწყარი ემოციებით.📍 გადაღება იწყება დილიდან (საჭიროებისამებრ) და გრძელდება ღამის 10 საათამდე. ვიყენებთ როგორც მიწიდან გადაღების პროფესიულ ტექნიკას, ასევე დრონს, რათა თქვენი დღესასწაული ზუსტად ისე გამოჩნდეს, როგორც ფილმებში.",
+                    banquetListTitle1: "რას მოიცავს პაკეტი:",
+                    banquetList1: "🎥 სრული ვიდეო ულიმიტო ხანგრძლივობით – გადაღებული 4K ხარისხით",
+                    banquetList2: "✂️ მონტაჟირებული 4–5 წუთიანი კლიპი – საუკეთესო მომენტების ამონარიდებით",
+                    banquetList3: "🎁 საჩუქრად – 1-წუთიანი Instagram/Facebook Reels ვიდეო",
+                    banquetList4: "🚁 დრონით გადაღებული უნიკალური საჰაერო კადრები – ღონისძიების ფართო ხედით",
+                    banquetListTitle2: "როგორ ვმუშაობთ?",
+                    banquetList5: "📞 გადაღებამდე ვგეგმავთ ყველა დეტალს – ვესაუბრებით ორგანიზატორებს, მასწავლებლებს, თუ საჭირო იქნება – თქვენს მეგობრებსაც კი, რათა კადრები მაქსიმალურად ავსახოთ თქვენზე მორგებული ხედვით.",
+                    banquetList6: "💳 დაჯავშნისთვის საჭიროა 200 ლარის წინასწარი გადახდა.",
+                    banquetListTitle3: "რატომ აგვირჩიოთ?",
+                    banquetList7: "✅ დიდი გამოცდილება ბანკეტებისა და კურსდამთავრებული ღონისძიებების გადაღებაში",
+                    banquetList8: "✅ პროფესიონალური ვიდეო ტექნიკა – კამერები, სტაბილიზატორები და დრონი",
+                    banquetList9: "✅ ინდივიდუალური მიდგომა – თითოეულ დამკვეთთან დეტალური კომუნიკაცია",
+                    banquetList10: "✅ მაღალხარისხიანი მონტაჟი, შესაფერისი მუსიკალური გაფორმება და ემოციური თხრობა",
+                    banquetContact: "დაგვიკავშირდით დღესვე და ერთად შევქმნათ ვიდეო, რომელიც გაყიდის თქვენს იდეას.📩",
+                    commercialTitle: "კომერციული ვიდეოგადაღება – პროფესიონალური ვიდეო მომსახურეობა თქვენი ბიზნესისთვის",
+                    commercialPrice: "ფასი: ინდივიდუალური შეთანხმებით",
+                    commercialDesc: "ეძებთ ვინმეს, ვინც თქვენი ბიზნესის იდეას კადრებად აქცევს? ჩვენ გთავაზობთ სრულფასოვან კომერციულ ვიდეო გადაღებას, რომელიც შექმნილია თქვენი მიზნების, აუდიტორიის და ბრენდის სტილზე მორგებით.",
+                    commercialListTitle1: "რას შეიძლება მოიცავდეს კომერციული ვიდეოგადაღება:",
+                    commercialList1: "📦 პროდუქტის ან სერვისის ვიდეო რეკლამა",
+                    commercialList2: "🏗️ კომპანიის, ოფისის ან ობიექტის პრეზენტაცია",
+                    commercialList3: "🎤 ინტერვიუები და თანამშრომელთა კომენტარები",
+                    commercialList4: "🕹️ დრონით გადაღებული მაღალი ხარისხის საჰაერო კადრები",
+                    commercialList5: "✂️ მოკლე კლიპები სოციალური მედიისთვის (Reels, TikTok, YouTube Shorts)",
+                    commercialList6: "🎞️ ბრენდის პრეზენტაციული ვიდეოები",
+                    commercialListTitle2: "როგორ ვმუშაობთ?",
+                    commercialList7: "📞 გადაღებამდე ვატარებთ დეტალურ კომუნიკაციას – ვიცნობთ თქვენს პროდუქტს, მიზნებსა და აუდიტორიას. თითოეული კადრი ისე იგეგმება, რომ მაქსიმალურად მოერგოს თქვენს ვიზუალურ სტილს და კომუნიკაციის ტონს.",
+                    commercialList8: "🎥 გადაღებაში გამოიყენება პროფესიონალური ტექნიკა:",
+                    commercialList9: "4K კამერები",
+                    commercialList10: "სტაბილიზატორები",
+                    commercialList11: "დრონი (საჭიროებისამებრ)",
+                    commercialList12: "მაღალი ხარისხის აუდიო მოწყობილობები",
+                    commercialList13: "💬 ფასი დგინდება პროექტის სირთულიდან, ხანგრძლივობიდან და მასშტაბიდან გამომდინარე.",
+                    commercialListTitle3: "რატომ უნდა აგვირჩიოთ?",
+                    commercialList14: "✅ გამოცდილება სხვადასხვა ინდუსტრიის ბრენდებთან მუშაობაში",
+                    commercialList15: "✅ ეფექტიანი სცენარიზაცია და ვიზუალური თხრობა",
+                    commercialList16: "✅ ხარისხიანი კადრები, თანამედროვე მონტაჟი და დროული ჩაბარება",
+                    commercialList17: "✅ თქვენზე მორგებული სერვისი – მცირე ბიზნესიდან მსხვილ კომპანიებამდე",
+                    commercialContact: "დაგვიკავშირდით დღესვე და ერთად შევქმნათ ვიდეო, რომელიც გაყიდის თქვენს იდეას.📩",
+                    portfolioTitle: "ნამუშევრები",
+                    pricingTitle: "ჩვენი ფასები",
+                    pricingWeddingTitle: "ქორწილის პაკეტი",
+                    pricingWeddingPrice: "900 ლარი",
+                    pricingWeddingList1: "მთელი დღის გადაღება",
+                    pricingWeddingList2: "მონტაჟი და ფერთა კორექცია",
+                    pricingWeddingList3: "მოკლე და სრული ვიდეოს მიღება",
+                    pricingBaptismTitle: "ნათლობის პაკეტი",
+                    pricingBaptismPrice: "300 ლარი",
+                    pricingBaptismList1: "ცერემონიის და წვეულების გადაღება",
+                    pricingBaptismList2: "პროფესიონალური მონტაჟი",
+                    pricingBaptismList3: "ფაილების ონლაინ გაზიარება",
+                    pricingBanquetTitle: "ბანკეტის პაკეტი",
+                    pricingBanquetPrice: "1000 ლარი",
+                    pricingBanquetList1: "მთელი ღონისძიების გადაღება",
+                    pricingBanquetList2: "ემოციური მონტაჟი",
+                    pricingBanquetList3: "მუსიკალური გაფორმება",
+                    pricingCommercialTitle: "კომერციული პაკეტი",
+                    pricingCommercialPrice: "შეთანხმებით",
+                    pricingCommercialList1: "ინდივიდუალური სცენარი",
+                    pricingCommercialList2: "პროფესიონალური მონტაჟი",
+                    pricingCommercialList3: "სარეკლამო ვიდეოს შექმნა",
+                    contactTitle: "დამიკავშირდით!",
+                    contactSubtitle: "აირჩიეთ სასურველი ღილაკი ჩვენთან დასაკავშირებლად.",
+                    contactCall: "ზარი",
+                    contactSms: "SMS",
+                    contactInstagram: "Instagram",
+                    contactFacebook: "Facebook",
+                    footerText: "&copy; 2024 Dream studio. ყველა უფლება დაცულია.",
+                    modalTitle: "დაჯავშნა",
+                    nameLabel: "სახელი და გვარი",
+                    emailLabel: "ელ.ფოსტა",
+                    phoneLabel: "ტელეფონის ნომერი",
+                    serviceLabel: "სერვისი",
+                    optionWedding: "ქორწილის გადაღება",
+                    optionBaptism: "ნათლობის გადაღება",
+                    optionBanquet: "ბანკეტის გადაღება",
+                    optionCommercial: "კომერციული გადაღება",
+                    dateLabel: "სასურველი თარიღი",
+                    submitButton: "გაგზავნა",
+                    loadingMessage: "მიმდინარეობს გაგზავნა...",
+                    successMessage: "თქვენი ჯავშნის მოთხოვნა წარმატებით გაიგზავნა!",
+                    errorMessage: "დაფიქსირდა შეცდომა. სცადეთ მოგვიანებით.",
+                    toggleButtonExpand: "სრულად ნახვა",
+                    toggleButtonCollapse: "ნაკლებად ნახვა",
+                },
+                en: {
+                    pageTitle: "Dream studio - Professional Videography",
+                    navServices: "Services",
+                    navPortfolio: "Portfolio",
+                    navPricing: "Pricing",
+                    navContact: "Contact",
+                    reserveButton: "Book Now",
+                    heroTitle: "Capture Your Moments Forever",
+                    heroSubtitle: "Professional videography for weddings, baptisms, banquets, and other important events.",
+                    heroCta: "Learn More",
+                    servicesTitle: "Our Services",
+                    weddingTitle: "Wedding Videography – Professional Video Service (Drone Footage as a Gift)",
+                    weddingPrice: "Price: 900 GEL",
+                    weddingDesc: "Dear couple, we offer professional wedding videography with a complete package that includes unique aerial footage from a drone, in addition to ground-level shots.",
+                    weddingListTitle1: "What you get in this package:",
+                    weddingList1: "🎥 Full video with unlimited duration – shot in 4K quality",
+                    weddingList2: "✂️ Edited 4–5 minute clip – suitable for sharing on social media",
+                    weddingList3: "🎁 Gift – 1-minute “Reels” video for Instagram/Facebook",
+                    weddingListTitle2: "How we work?",
+                    weddingList4: "📆 Filming starts in the morning (if needed) and continues until 10 PM.",
+                    weddingList5: "📞 We provide a detailed consultation before filming to ensure every moment is planned and captured correctly.",
+                    weddingList6: "💳 A deposit of 200 GEL is required for booking.",
+                    weddingListTitle3: "Why choose us?",
+                    weddingList7: "✅ Many years of experience in wedding videography",
+                    weddingList8: "✅ Professional equipment – 4K camera, stabilizers, drone",
+                    weddingList9: "✅ Individual approach – with a custom-created script for you",
+                    weddingList10: "✅ Fast editing and high quality",
+                    weddingContact: "Contact us today and let's plan together to capture your unforgettable day – so that every shot speaks of love. 📩",
+                    baptismTitle: "Baptism Videography – Professional Video Service at the Church",
+                    baptismPrice: "Price: 300 GEL",
+                    baptismDesc: "We offer professional baptism video services, which include filming at the church and in the churchyard. Our goal is to preserve this important spiritual day with love and tenderness in the form of a video.",
+                    baptismListTitle1: "What you get in this package:",
+                    baptismList1: "🎥 Full video – shot in the church and churchyard, with beautiful details",
+                    baptismList2: "✂️ Short edited clip – suitable for sharing on social media",
+                    baptismList3: "🎁 Gift – 1-minute “Reels” video for Instagram/Facebook",
+                    baptismListTitle2: "How we work?",
+                    baptismList4: "📍 We only film in the church and its yard – gently, carefully, and with respect for the religious space.",
+                    baptismList5: "📞 We plan the details in advance – communication with parents and godparents allows us to properly stage scenes and shots.",
+                    baptismList6: "💳 A deposit of 100 GEL is required for booking.",
+                    baptismListTitle3: "Why choose us?",
+                    baptismList7: "✅ Experience in capturing sensitive and emotional moments",
+                    baptismList8: "✅ Professional equipment – high-quality cameras and stabilizers",
+                    baptismList9: "✅ Fast editing, clear sound, and soft colors",
+                    baptismList10: "✅ Individual approach to every family",
+                    baptismContact: "Contact us today and let's turn your child's baptism into a video memory full of pure emotions. 📩",
+                    banquetTitle: "Banquet Videography with Drone – Full-Service Videography",
+                    banquetPrice: "Price: 1000 GEL",
+                    banquetDesc: "We offer professional banquet videography that covers all the important moments of the day – from preparations to dances, toasts, and unforgettable emotions.📍 Filming starts in the morning (if needed) and continues until 10 PM. We use both professional ground-level filming equipment and a drone to make your celebration look exactly like a movie.",
+                    banquetListTitle1: "What the package includes:",
+                    banquetList1: "🎥 Full video with unlimited duration – shot in 4K quality",
+                    banquetList2: "✂️ Edited 4–5 minute clip – with highlights of the best moments",
+                    banquetList3: "🎁 Gift – 1-minute Instagram/Facebook Reels video",
+                    banquetList4: "🚁 Unique aerial drone footage – with a wide view of the event",
+                    banquetListTitle2: "How we work?",
+                    banquetList5: "📞 We plan all the details before filming – we talk to organizers, teachers, and if necessary – even your friends, so that the footage is maximally tailored to your vision.",
+                    banquetList6: "💳 A deposit of 200 GEL is required for booking.",
+                    banquetListTitle3: "Why choose us?",
+                    banquetList7: "✅ Extensive experience in filming banquets and graduation events",
+                    banquetList8: "✅ Professional video equipment – cameras, stabilizers, and a drone",
+                    banquetList9: "✅ Individual approach – detailed communication with each client",
+                    banquetList10: "✅ High-quality editing, suitable musical score, and emotional storytelling",
+                    banquetContact: "Contact us today and let's create a video that sells your idea.📩",
+                    commercialTitle: "Commercial Videography – Professional Video Service for Your Business",
+                    commercialPrice: "Price: By individual agreement",
+                    commercialDesc: "Are you looking for someone to turn your business idea into footage? We offer full-service commercial videography designed to suit your goals, audience, and brand style.",
+                    commercialListTitle1: "What commercial videography can include:",
+                    commercialList1: "📦 Video advertising for a product or service",
+                    commercialList2: "🏗️ Company, office, or facility presentation",
+                    commercialList3: "🎤 Interviews and employee testimonials",
+                    commercialList4: "🕹️ High-quality aerial drone footage",
+                    commercialList5: "✂️ Short clips for social media (Reels, TikTok, YouTube Shorts)",
+                    commercialList6: "🎞️ Brand presentation videos",
+                    commercialListTitle2: "How we work?",
+                    commercialList7: "📞 We conduct detailed communication before filming – we get to know your product, goals, and audience. Every shot is planned to maximally fit your visual style and communication tone.",
+                    commercialList8: "🎥 Professional equipment is used for filming:",
+                    commercialList9: "4K cameras",
+                    commercialList10: "Stabilizers",
+                    commercialList11: "Drone (if needed)",
+                    commercialList12: "High-quality audio devices",
+                    commercialList13: "💬 The price is determined based on the complexity, duration, and scale of the project.",
+                    commercialListTitle3: "Why choose us?",
+                    commercialList14: "✅ Experience working with brands in various industries",
+                    commercialList15: "✅ Effective scripting and visual storytelling",
+                    commercialList16: "✅ High-quality footage, modern editing, and timely delivery",
+                    commercialList17: "✅ Service tailored to you – from small businesses to large companies",
+                    commercialContact: "Contact us today and let's create a video that sells your idea.📩",
+                    portfolioTitle: "Portfolio",
+                    pricingTitle: "Our Prices",
+                    pricingWeddingTitle: "Wedding Package",
+                    pricingWeddingPrice: "900 GEL",
+                    pricingWeddingList1: "Full-day shooting",
+                    pricingWeddingList2: "Editing and color correction",
+                    pricingWeddingList3: "Receive short and full videos",
+                    pricingBaptismTitle: "Baptism Package",
+                    pricingBaptismPrice: "300 GEL",
+                    pricingBaptismList1: "Filming the ceremony and party",
+                    pricingBaptismList2: "Professional editing",
+                    pricingBaptismList3: "Online file sharing",
+                    pricingBanquetTitle: "Banquet Package",
+                    pricingBanquetPrice: "1000 GEL",
+                    pricingBanquetList1: "Filming the entire event",
+                    pricingBanquetList2: "Emotional editing",
+                    pricingBanquetList3: "Musical arrangement",
+                    pricingCommercialTitle: "Commercial Package",
+                    pricingCommercialPrice: "By agreement",
+                    pricingCommercialList1: "Individual script",
+                    pricingCommercialList2: "Professional editing",
+                    pricingCommercialList3: "Creating a promotional video",
+                    contactTitle: "Contact Us!",
+                    contactSubtitle: "Choose a button below to contact us.",
+                    contactCall: "Call",
+                    contactSms: "SMS",
+                    contactInstagram: "Instagram",
+                    contactFacebook: "Facebook",
+                    footerText: "&copy; 2024 Dream studio. All rights reserved.",
+                    modalTitle: "Booking",
+                    nameLabel: "Full Name",
+                    emailLabel: "Email",
+                    phoneLabel: "Phone Number",
+                    serviceLabel: "Service",
+                    optionWedding: "Wedding Videography",
+                    optionBaptism: "Baptism Videography",
+                    optionBanquet: "Banquet Videography",
+                    optionCommercial: "Commercial Videography",
+                    dateLabel: "Preferred Date",
+                    submitButton: "Submit",
+                    loadingMessage: "Sending...",
+                    successMessage: "Your booking request has been sent successfully!",
+                    errorMessage: "An error occurred. Please try again later.",
+                    toggleButtonExpand: "Read More",
+                    toggleButtonCollapse: "Read Less",
+                }
+            };
+
+            let currentLang = 'ka';
+
+            const elements = {
+                pageTitle: document.getElementById('page-title'),
+                navServices: document.getElementById('nav-services'),
+                navPortfolio: document.getElementById('nav-portfolio'),
+                navPricing: document.getElementById('nav-pricing'),
+                navContact: document.getElementById('nav-contact'),
+                reserveButton: document.getElementById('reserve-button'),
+                heroTitle: document.getElementById('hero-title'),
+                heroSubtitle: document.getElementById('hero-subtitle'),
+                heroCta: document.getElementById('hero-cta'),
+                servicesTitle: document.getElementById('services-title'),
+                weddingTitle: document.getElementById('wedding-title'),
+                weddingPrice: document.getElementById('wedding-price'),
+                weddingDesc: document.getElementById('wedding-desc'),
+                weddingListTitle1: document.getElementById('wedding-list-title1'),
+                weddingList1: document.getElementById('wedding-list1'),
+                weddingList2: document.getElementById('wedding-list2'),
+                weddingList3: document.getElementById('wedding-list3'),
+                weddingListTitle2: document.getElementById('wedding-list-title2'),
+                weddingList4: document.getElementById('wedding-list4'),
+                weddingList5: document.getElementById('wedding-list5'),
+                weddingList6: document.getElementById('wedding-list6'),
+                weddingListTitle3: document.getElementById('wedding-list-title3'),
+                weddingList7: document.getElementById('wedding-list7'),
+                weddingList8: document.getElementById('wedding-list8'),
+                weddingList9: document.getElementById('wedding-list9'),
+                weddingList10: document.getElementById('wedding-list10'),
+                weddingContact: document.getElementById('wedding-contact'),
+                baptismTitle: document.getElementById('baptism-title'),
+                baptismPrice: document.getElementById('baptism-price'),
+                baptismDesc: document.getElementById('baptism-desc'),
+                baptismListTitle1: document.getElementById('baptism-list-title1'),
+                baptismList1: document.getElementById('baptism-list1'),
+                baptismList2: document.getElementById('baptism-list2'),
+                baptismList3: document.getElementById('baptism-list3'),
+                baptismListTitle2: document.getElementById('baptism-list-title2'),
+                baptismList4: document.getElementById('baptism-list4'),
+                baptismList5: document.getElementById('baptism-list5'),
+                baptismList6: document.getElementById('baptism-list6'),
+                baptismListTitle3: document.getElementById('baptism-list-title3'),
+                baptismList7: document.getElementById('baptism-list7'),
+                baptismList8: document.getElementById('baptism-list8'),
+                baptismList9: document.getElementById('baptism-list9'),
+                baptismList10: document.getElementById('baptism-list10'),
+                baptismContact: document.getElementById('baptism-contact'),
+                banquetTitle: document.getElementById('banquet-title'),
+                banquetPrice: document.getElementById('banquet-price'),
+                banquetDesc: document.getElementById('banquet-desc'),
+                banquetListTitle1: document.getElementById('banquet-list-title1'),
+                banquetList1: document.getElementById('banquet-list1'),
+                banquetList2: document.getElementById('banquet-list2'),
+                banquetList3: document.getElementById('banquet-list3'),
+                banquetList4: document.getElementById('banquet-list4'),
+                banquetListTitle2: document.getElementById('banquet-list-title2'),
+                banquetList5: document.getElementById('banquet-list5'),
+                banquetList6: document.getElementById('banquet-list6'),
+                banquetListTitle3: document.getElementById('banquet-list-title3'),
+                banquetList7: document.getElementById('banquet-list7'),
+                banquetList8: document.getElementById('banquet-list8'),
+                banquetList9: document.getElementById('banquet-list9'),
+                banquetList10: document.getElementById('banquet-list10'),
+                banquetContact: document.getElementById('banquet-contact'),
+                commercialTitle: document.getElementById('commercial-title'),
+                commercialPrice: document.getElementById('commercial-price'),
+                commercialDesc: document.getElementById('commercial-desc'),
+                commercialListTitle1: document.getElementById('commercial-list-title1'),
+                commercialList1: document.getElementById('commercial-list1'),
+                commercialList2: document.getElementById('commercial-list2'),
+                commercialList3: document.getElementById('commercial-list3'),
+                commercialList4: document.getElementById('commercial-list4'),
+                commercialList5: document.getElementById('commercial-list5'),
+                commercialList6: document.getElementById('commercial-list6'),
+                commercialListTitle2: document.getElementById('commercial-list-title2'),
+                commercialList7: document.getElementById('commercial-list7'),
+                commercialList8: document.getElementById('commercial-list8'),
+                commercialList9: document.getElementById('commercial-list9'),
+                commercialList10: document.getElementById('commercial-list10'),
+                commercialList11: document.getElementById('commercial-list11'),
+                commercialList12: document.getElementById('commercial-list12'),
+                commercialList13: document.getElementById('commercial-list13'),
+                commercialListTitle3: document.getElementById('commercial-list-title3'),
+                commercialList14: document.getElementById('commercial-list14'),
+                commercialList15: document.getElementById('commercial-list15'),
+                commercialList16: document.getElementById('commercial-list16'),
+                commercialList17: document.getElementById('commercial-list17'),
+                commercialContact: document.getElementById('commercial-contact'),
+                portfolioTitle: document.getElementById('portfolio-title'),
+                pricingTitle: document.getElementById('pricing-title'),
+                pricingWeddingTitle: document.getElementById('pricing-wedding-title'),
+                pricingWeddingPrice: document.getElementById('pricing-wedding-price'),
+                pricingWeddingList1: document.getElementById('pricing-wedding-list1'),
+                pricingWeddingList2: document.getElementById('pricing-wedding-list2'),
+                pricingWeddingList3: document.getElementById('pricing-wedding-list3'),
+                pricingBaptismTitle: document.getElementById('pricing-baptism-title'),
+                pricingBaptismPrice: document.getElementById('pricing-baptism-price'),
+                pricingBaptismList1: document.getElementById('pricing-baptism-list1'),
+                pricingBaptismList2: document.getElementById('pricing-baptism-list2'),
+                pricingBaptismList3: document.getElementById('pricing-baptism-list3'),
+                pricingBanquetTitle: document.getElementById('pricing-banquet-title'),
+                pricingBanquetPrice: document.getElementById('pricing-banquet-price'),
+                pricingBanquetList1: document.getElementById('pricing-banquet-list1'),
+                pricingBanquetList2: document.getElementById('pricing-banquet-list2'),
+                pricingBanquetList3: document.getElementById('pricing-banquet-list3'),
+                pricingCommercialTitle: document.getElementById('pricing-commercial-title'),
+                pricingCommercialPrice: document.getElementById('pricing-commercial-price'),
+                pricingCommercialList1: document.getElementById('pricing-commercial-list1'),
+                pricingCommercialList2: document.getElementById('pricing-commercial-list2'),
+                pricingCommercialList3: document.getElementById('pricing-commercial-list3'),
+                contactTitle: document.getElementById('contact-title'),
+                contactSubtitle: document.getElementById('contact-subtitle'),
+                contactCall: document.getElementById('contact-call'),
+                contactSms: document.getElementById('contact-sms'),
+                contactInstagram: document.getElementById('contact-instagram'),
+                contactFacebook: document.getElementById('contact-facebook'),
+                footerText: document.getElementById('footer-text'),
+                modalTitle: document.getElementById('modal-title'),
+                nameLabel: document.getElementById('name-label'),
+                emailLabel: document.getElementById('email-label'),
+                phoneLabel: document.getElementById('phone-label'),
+                serviceLabel: document.getElementById('service-label'),
+                optionWedding: document.getElementById('option-wedding'),
+                optionBaptism: document.getElementById('option-baptism'),
+                optionBanquet: document.getElementById('option-banquet'),
+                optionCommercial: document.getElementById('option-commercial'),
+                dateLabel: document.getElementById('date-label'),
+                submitButton: document.getElementById('submit-button'),
+            };
+
+            const updateContent = (lang) => {
+                const content = translations[lang];
+                for (const key in elements) {
+                    if (elements[key] && content[key]) {
+                        elements[key].textContent = content[key];
+                    }
+                }
+                // Update placeholder text for inputs
+                document.getElementById('name').placeholder = lang === 'en' ? 'Full Name' : 'სახელი და გვარი';
+                document.getElementById('email').placeholder = lang === 'en' ? 'Email' : 'ელ.ფოსტა';
+                document.getElementById('phone').placeholder = lang === 'en' ? 'Phone Number' : 'ტელეფონის ნომერი';
+                // Update toggle button text
+                document.querySelectorAll('.content-toggle-btn').forEach(button => {
+                    const container = button.previousElementSibling;
+                    button.textContent = container.classList.contains('expanded') ? content.toggleButtonCollapse : content.toggleButtonExpand;
+                });
+            };
+
             const reserveButton = document.getElementById('reserve-button');
             const modal = document.getElementById('reservation-modal');
             const closeModal = document.getElementById('close-modal');
             const reservationForm = document.getElementById('reservation-form');
             const messageBox = document.getElementById('message-box');
+            const toggleButtons = document.querySelectorAll('.content-toggle-btn');
+            const heroTitle = document.getElementById('hero-title');
+            const langToggleBtn = document.getElementById('lang-toggle');
 
             reserveButton.addEventListener('click', () => {
                 modal.style.display = 'flex';
@@ -277,7 +917,7 @@
                 const data = Object.fromEntries(formData.entries());
                 
                 // Show a "loading" message
-                messageBox.textContent = 'მიმდინარეობს გაგზავნა...';
+                messageBox.textContent = translations[currentLang].loadingMessage;
                 messageBox.classList.remove('hidden', 'text-green-500', 'text-red-500');
                 messageBox.classList.add('text-gray-400');
 
@@ -293,22 +933,53 @@
                     });
 
                     if (response.ok) {
-                        messageBox.textContent = 'თქვენი ჯავშნის მოთხოვნა წარმატებით გაიგზავნა!';
+                        messageBox.textContent = translations[currentLang].successMessage;
                         messageBox.classList.remove('text-gray-400');
                         messageBox.classList.add('text-green-500');
                         reservationForm.reset();
-                        // You can also add a small delay and close the modal automatically
-                        // setTimeout(() => { modal.style.display = 'none'; }, 3000);
                     } else {
                         throw new Error('Formspree response was not OK');
                     }
                 } catch (error) {
                     console.error('Submission error:', error);
-                    messageBox.textContent = 'დაფიქსირდა შეცდომა. სცადეთ მოგვიანებით.';
+                    messageBox.textContent = translations[currentLang].errorMessage;
                     messageBox.classList.remove('text-gray-400');
                     messageBox.classList.add('text-red-500');
                 }
             });
+
+            // Handle expandable content
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const contentContainer = button.previousElementSibling;
+                    const isExpanded = contentContainer.classList.toggle('expanded');
+                    button.textContent = isExpanded ? translations[currentLang].toggleButtonCollapse : translations[currentLang].toggleButtonExpand;
+                });
+            });
+
+            // Handle hero title scaling on scroll
+            window.addEventListener('scroll', () => {
+                const scrollPosition = window.scrollY;
+                const scale = 1 + scrollPosition / 1000;
+                heroTitle.style.transform = `scale(${scale})`;
+            });
+            
+            // Language toggle functionality
+            langToggleBtn.addEventListener('click', () => {
+                if (currentLang === 'ka') {
+                    currentLang = 'en';
+                    langToggleBtn.textContent = 'GE';
+                    document.documentElement.lang = 'en';
+                } else {
+                    currentLang = 'ka';
+                    langToggleBtn.textContent = 'EN';
+                    document.documentElement.lang = 'ka';
+                }
+                updateContent(currentLang);
+            });
+            
+            // Initial content load
+            updateContent(currentLang);
         });
     </script>
 
