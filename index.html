@@ -125,37 +125,32 @@
             z-index: 2; /* Ensure content is on top of the overlay */
         }
 
-        /* Container */
-#hero-slider {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 600%; /* 5 original + 1 duplicate for seamless loop */
-    height: 100%;
-    display: flex;
-    animation: slideShowAnimation 30s linear infinite; /* adjust timing */
-}
+        /* Styles for the new sliding slideshow */
+        #hero-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 500%; /* 5 images * 100% width each */
+            height: 100%;
+            display: flex;
+            animation: slideShowAnimation 25s infinite; /* 5s per image * 5 images */
+        }
 
-/* Each slide */
-#hero-slider .slide {
-    width: 16.6667%; /* 100% / 6 slides = 16.6667% */
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    flex-shrink: 0;
-}
+        #hero-slider .slide {
+            width: 20%; /* Each slide takes up 20% of the container's width */
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            flex-shrink: 0;
+        }
 
-/* Keyframes for smooth loop */
-@keyframes slideShowAnimation {
-    0%   { transform: translateX(0%); }
-    16.6667%  { transform: translateX(-16.6667%); } /* Slide 2 */
-    33.3334%  { transform: translateX(-33.3334%); } /* Slide 3 */
-    50%  { transform: translateX(-50%); } /* Slide 4 */
-    66.6667%  { transform: translateX(-66.6667%); } /* Slide 5 */
-    83.3334%  { transform: translateX(-83.3334%); } /* Duplicate of Slide 1 */
-    100% { transform: translateX(-100%); } /* Reset to start seamlessly */
-}
-
+        @keyframes slideShowAnimation {
+            0%, 20% { transform: translateX(0); } /* Slide 1 */
+            25%, 45% { transform: translateX(-20%); } /* Slide 2 */
+            50%, 70% { transform: translateX(-40%); } /* Slide 3 */
+            75%, 95% { transform: translateX(-60%); } /* Slide 4 */
+            100% { transform: translateX(-80%); } /* Slide 5 */
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -501,7 +496,7 @@
 
     <!-- Footer -->
     <footer class="bg-[#112240] p-6 text-center text-gray-500 rounded-t-xl">
-        <p id="footer-text">&#9400; 2025 Dream studio. ყველა უფლება დაცულია.</p>
+        <p id="footer-text">"mb-4">© 2025 Dream studio. ყველა უფლება დაცულია.</p>
     </footer>
 
     <!-- Reservation Modal -->
@@ -663,7 +658,7 @@
                     contactSms: "SMS",
                     contactInstagram: "Instagram",
                     contactFacebook: "Facebook",
-                    footerText: "&#9400; 2025 Dream studio. ყველა უფლება დაცულია.",
+                    footerText: ""mb-4">© 2025 Dream studio. ყველა უფლება დაცულია.",
                     modalTitle: "დაჯავშნა",
                     nameLabel: "სახელი და გვარი",
                     emailLabel: "ელ.ფოსტა",
@@ -794,7 +789,7 @@
                     contactSms: "SMS",
                     contactInstagram: "Instagram",
                     contactFacebook: "Facebook",
-                    footerText: "&#9400; 2025 Dream studio. All rights reserved.",
+                    footerText: ""mb-4">© 2025 Dream studio. All rights reserved.",
                     modalTitle: "Reservation",
                     nameLabel: "Full Name",
                     emailLabel: "Email",
