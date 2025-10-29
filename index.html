@@ -127,30 +127,31 @@
 
         /* Styles for the new sliding slideshow */
         #hero-slider {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 500%; /* 5 images * 100% width each */
-            height: 100%;
-            display: flex;
-            animation: slideShowAnimation 25s infinite; /* 5s per image * 5 images */
-        }
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 600%; /* 5 slides + duplicate first slide */
+    height: 100%;
+    display: flex;
+    animation: slideShowAnimation 12.5s infinite; /* 2.5s per slide * 5 slides */
+}
 
-        #hero-slider .slide {
-            width: 20%; /* Each slide takes up 20% of the container's width */
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            flex-shrink: 0;
-        }
+#hero-slider .slide {
+    width: 16.6666%; /* 100% / 6 slides */
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+}
 
-        @keyframes slideShowAnimation {
-            0%, 20% { transform: translateX(0); } /* Slide 1 */
-            25%, 45% { transform: translateX(-20%); } /* Slide 2 */
-            50%, 70% { transform: translateX(-40%); } /* Slide 3 */
-            75%, 95% { transform: translateX(-60%); } /* Slide 4 */
-            100% { transform: translateX(-80%); } /* Slide 5 */
-        }
+@keyframes slideShowAnimation {
+    0%, 16.66% { transform: translateX(0%); }        /* Slide 1 */
+    16.66%, 33.33% { transform: translateX(-16.6666%); } /* Slide 2 */
+    33.33%, 50% { transform: translateX(-33.3333%); }    /* Slide 3 */
+    50%, 66.66% { transform: translateX(-50%); }         /* Slide 4 */
+    66.66%, 83.33% { transform: translateX(-66.6666%); } /* Slide 5 */
+    100% { transform: translateX(-83.3333%); }           /* Duplicate Slide 1 */
+}
     </style>
 </head>
 <body class="antialiased">
