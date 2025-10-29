@@ -151,6 +151,17 @@
             75%, 95% { transform: translateX(-60%); } /* Slide 4 */
             100% { transform: translateX(-80%); } /* Slide 5 */
         }
+        <script>
+document.querySelectorAll('.content-toggle-btn').forEach(button => {
+  button.addEventListener('click', () => {
+    const container = button.previousElementSibling;
+    container.classList.toggle('expanded');
+    button.textContent = container.classList.contains('expanded')
+      ? 'ჩაკეცვა'
+      : 'სრულად ნახვა';
+  });
+});
+</script>
     </style>
 </head>
 <body class="antialiased">
