@@ -971,26 +971,22 @@
                 translatePage(currentLang);
             });
 
-          // Toggle "read more" functionality - REVISED LOGIC
-            document.querySelectorAll('.content-toggle-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    // Find the parent element of the button (which is the .bg-[#193153] card)
-                    const parentCard = button.closest('.bg-[#193153]'); 
+         // Toggle "read more" functionality - REVISED LOGIC
+document.querySelectorAll('.content-toggle-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        // 1. იპოვეთ მშობელი ბარათი: <div class="bg-[#193153]">
+        const parentCard = button.closest('.bg-[#193153]'); 
 
-                    // Then find the specific .content-container within that parent
-                    const container = parentCard ? parentCard.querySelector('.content-container') : null;
-                    
-                    if (container) {
-                        container.classList.toggle('expanded');
-                        
-                        if (container.classList.contains('expanded')) {
-                            button.textContent = translations[currentLang].viewLess;
-                        } else {
-                            button.textContent = translations[currentLang].viewMore;
-                        }
-                    }
-                });
-            });
+        // 2. იპოვეთ შვილობილი კონტეინერი ამ ბარათის შიგნით
+        const container = parentCard ? parentCard.querySelector('.content-container') : null;
+        
+        if (container) {
+            // ... დანარჩენი კოდი
+            container.classList.toggle('expanded');
+            // ...
+        }
+    });
+});
 
             // Modal functionality
             const reserveButton = document.getElementById('reserve-button');
