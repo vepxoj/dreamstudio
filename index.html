@@ -110,7 +110,7 @@
     width: 700%; /* 6 slides + duplicate first slide */
     height: 100%;
     display: flex;
-    animation: slideShowAnimation 20s infinite linear;
+    animation: slideShowAnimation 20s infinite; /* საერთო დრო (პირველი slide 5s + დანარჩენი 2.5s*5 = 12.5 + 5(loop)) */
 }
 
 #hero-slider .slide {
@@ -127,40 +127,22 @@
     position: absolute;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(0,0,0,0.3); /* 30% dark overlay = 70% სურათი ჩანს */
     z-index: 1;
 }
 
-#hero-slider .slide > * {
+#hero-slider .slide > * { /* content in slide */
     position: relative;
     z-index: 2;
 }
 
 @keyframes slideShowAnimation {
-    /* Slide 1 - გაჩერება ორჯერ მეტხანს */
-    10%, 18% { transform: translateX(0%); }           /* გაჩერება */
-    18%, 19% { transform: translateX(-14.2857%); }  /* ტრანზიცია სწრაფი */
-
-    /* Slide 2 */
-    19%, 25% { transform: translateX(-14.2857%); }  /* გაჩერება */
-    25%, 26% { transform: translateX(-28.5714%); }  /* ტრანზიცია */
-
-    /* Slide 3 */
-    26%, 36% { transform: translateX(-28.5714%); }
-    36%, 37% { transform: translateX(-42.8571%); }
-
-    /* Slide 4 */
-    37%, 47% { transform: translateX(-42.8571%); }
-    47%, 48% { transform: translateX(-57.1428%); }
-
-    /* Slide 5 */
-    48%, 58% { transform: translateX(-57.1428%); }
-    58%, 59% { transform: translateX(-71.4285%); }
-
-    /* Slide 6 */
-    59%, 69% { transform: translateX(-71.4285%); }  /* გაჩერება ნორმალური */
-    69%, 70% { transform: translateX(-85.7142%); }  /* ტრანზიცია */
-    
+    10%, 25% { transform: translateX(0%); }          /* Slide 1 - 5s */
+    25%, 37.5% { transform: translateX(-14.2857%); } /* Slide 2 - 2.5s */
+    37.5%, 50% { transform: translateX(-28.5714%); } /* Slide 3 - 2.5s */
+    50%, 62.5% { transform: translateX(-42.8571%); } /* Slide 4 - 2.5s */
+    62.5%, 75% { transform: translateX(-57.1428%); } /* Slide 5 - 2.5s */
+    75%, 87.5% { transform: translateX(-71.4285%); } /* Slide 6 - 2.5s */
     100% { transform: translateX(-85.7142%); }       /* Duplicate Slide 1 */
 }
 
