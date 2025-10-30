@@ -103,41 +103,18 @@
         }
 
         /* Hero Section with slideshow background */
-        #hero-section {
-            position: relative;
-            min-height: 100vh;
-            overflow: hidden; /* Hide overflowing images */
-        }
-
-        #hero-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7); /* Dark overlay */
-            z-index: 1;
-        }
-
-        #hero-section .container {
-            position: relative;
-            z-index: 2; /* Ensure content is on top of the overlay */
-        }
-
-        /* Styles for the new sliding slideshow */
         #hero-slider {
     position: absolute;
     top: 0;
     left: 0;
-    width: 600%; /* 5 slides + duplicate first slide */
+    width: 700%; /* 6 slides + duplicate first slide = 7 slides */
     height: 100%;
     display: flex;
-    animation: slideShowAnimation 12.5s infinite; /* 2.5s per slide * 5 slides */
+    animation: slideShowAnimation 17.5s infinite; /* 2.5s * 7 segments */
 }
 
 #hero-slider .slide {
-    width: 16.6666%; /* 100% / 6 slides */
+    width: 14.2857%; /* 100% / 7 slides */
     height: 100%;
     background-size: cover;
     background-position: center;
@@ -145,13 +122,15 @@
 }
 
 @keyframes slideShowAnimation {
-    0%, 16.66% { transform: translateX(0%); }        /* Slide 1 */
-    16.66%, 33.33% { transform: translateX(-16.6666%); } /* Slide 2 */
-    33.33%, 50% { transform: translateX(-33.3333%); }    /* Slide 3 */
-    50%, 66.66% { transform: translateX(-50%); }         /* Slide 4 */
-    66.66%, 83.33% { transform: translateX(-66.6666%); } /* Slide 5 */
-    100% { transform: translateX(-83.3333%); }           /* Duplicate Slide 1 */
+    0%, 14.2857% { transform: translateX(0%); }          /* Slide 1 */
+    14.2857%, 28.5714% { transform: translateX(-14.2857%); } /* Slide 2 */
+    28.5714%, 42.8571% { transform: translateX(-28.5714%); } /* Slide 3 */
+    42.8571%, 57.1428% { transform: translateX(-42.8571%); } /* Slide 4 */
+    57.1428%, 71.4285% { transform: translateX(-57.1428%); } /* Slide 5 */
+    71.4285%, 85.7142% { transform: translateX(-71.4285%); } /* Slide 6 */
+    100% { transform: translateX(-85.7142%); }                 /* Duplicate Slide 1 */
 }
+
     </style>
 </head>
 <body class="antialiased">
@@ -191,6 +170,7 @@
             <div class="slide" style="background-image: url('https://img.youtube.com/vi/FO33jVWLXYs/maxresdefault.jpg');"></div>
             <div class="slide" style="background-image: url('https://img.youtube.com/vi/6LJQZ-OLB1Y/maxresdefault.jpg');"></div>
             <div class="slide" style="background-image: url('https://img.youtube.com/vi/9dS8gjgl8GQ/maxresdefault.jpg');"></div>
+            <div class="slide" style="background-image: url('https://img.youtube.com/vi/g9_1l6RrwcY/maxresdefault.jpg');"></div>
             <div class="slide" style="background-image: url('https://img.youtube.com/vi/g9_1l6RrwcY/maxresdefault.jpg');"></div>
         </div>
 
