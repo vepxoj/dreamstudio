@@ -107,10 +107,10 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 700%; /* 6 slides + duplicate first slide */
+    width: 700%; /* 6 slides + duplicate */
     height: 100%;
     display: flex;
-    animation: slideShowAnimation 22.5s infinite linear; /* linear, გლუვი სრიალი */
+    animation: slideShowAnimation 22.5s infinite linear;
 }
 
 #hero-slider .slide {
@@ -127,33 +127,39 @@
     position: absolute;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.3); /* 70% სურათი ჩანს */
+    background-color: rgba(0,0,0,0.3);
     z-index: 1;
 }
 
-#hero-slider .slide > * { /* content in slide */
+#hero-slider .slide > * {
     position: relative;
     z-index: 2;
 }
 
 @keyframes slideShowAnimation {
-    0%, 20% { transform: translateX(0%); }           /* Slide 1 გაჩერება 4.5s */
-    20%, 25% { transform: translateX(-14.2857%); }   /* Slide 1 სწრაფი ტრანზიცია */
+    /* Slide 1 - გაჩერება ორჯერ მეტი, ტრანზიცია სწრაფი */
+    0%, 40% { transform: translateX(0%); }          /* Slide 1 გაჩერება 9s */
+    40%, 42% { transform: translateX(-14.2857%); }  /* Slide 1 სწრაფი ტრანზიცია */
 
-    25%, 35% { transform: translateX(-14.2857%); }   /* Slide 2 გაჩერება 2.5s */
-    35%, 40% { transform: translateX(-28.5714%); }   /* Slide 3 ტრანზიცია */
-    40%, 50% { transform: translateX(-28.5714%); }   /* Slide 3 გაჩერება 2.5s */
+    /* Slide 2 */
+    42%, 52% { transform: translateX(-14.2857%); }  /* გაჩერება 2.5s */
+    52%, 54% { transform: translateX(-28.5714%); }  /* ტრანზიცია სწრაფი */
 
-    50%, 55% { transform: translateX(-42.8571%); }   /* Slide 4 ტრანზიცია */
-    55%, 65% { transform: translateX(-42.8571%); }   /* Slide 4 გაჩერება 2.5s */
+    /* Slide 3 */
+    54%, 64% { transform: translateX(-28.5714%); }
+    64%, 66% { transform: translateX(-42.8571%); }
 
-    65%, 70% { transform: translateX(-57.1428%); }   /* Slide 5 ტრანზიცია */
-    70%, 80% { transform: translateX(-57.1428%); }   /* Slide 5 გაჩერება 2.5s */
+    /* Slide 4 */
+    66%, 76% { transform: translateX(-42.8571%); }
+    76%, 78% { transform: translateX(-57.1428%); }
 
-    80%, 85% { transform: translateX(-71.4285%); }   /* Slide 6 ტრანზიცია */
-    85%, 95% { transform: translateX(-71.4285%); }   /* Slide 6 გაჩერება 5s (2x სხვა slides) */
+    /* Slide 5 */
+    78%, 88% { transform: translateX(-57.1428%); }
+    88%, 90% { transform: translateX(-71.4285%); }
 
-    100% { transform: translateX(-85.7142%); }       /* Duplicate Slide 1 */
+    /* Slide 6 */
+    90%, 95% { transform: translateX(-71.4285%); }  /* ცოტა მალე გადადის */
+    95%, 100% { transform: translateX(-85.7142%); } /* Duplicate Slide 1 */
 }
 
     </style>
